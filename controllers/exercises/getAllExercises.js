@@ -1,10 +1,14 @@
 const Exercise = require("../../models/exercise");
 
 const getAllExercises = async (req, res) => {
-  const exercises = await Exercise.find();
-  if (!exercises) {
-    throw HttpError(404, "Not found");
-  }
+  const { bodypart, muscles, equipment } = req.query;
+
+  const query = {};
+  bodypart && (query.bodyPart = bodypart);
+  equipment && (query.equipment = equipment);
+  muscles && (query.target = muscles);
+
+  const exercises = await Exercise.find(query);
   res.json(exercises);
 };
 
