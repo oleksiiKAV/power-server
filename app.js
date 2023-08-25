@@ -4,7 +4,7 @@ const cors = require("cors");
 const usersRouter = require("./routes/api/auth");
 
 const productsRouter = require("./routes/api/products");
-
+const diaryRouter = require("./routes/api/diary");
 
 const app = express();
 
@@ -17,6 +17,7 @@ app.use(express.json());
 app.use("/api/users", usersRouter);
 
 app.use("/api/products", productsRouter);
+app.use("/api/diaries", diaryRouter);
 // app.use('/api/exercises', exercisesRouter);
 // app.use('/api/diary', diaryRouter);
 
