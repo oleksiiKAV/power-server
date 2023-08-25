@@ -2,7 +2,10 @@ const express = require("express");
 const logger = require("morgan");
 const cors = require("cors");
 const usersRouter = require("./routes/api/auth");
+
 const productsRouter = require("./routes/api/products");
+
+
 const app = express();
 
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
@@ -12,9 +15,11 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/users", usersRouter);
+
 app.use("/api/products", productsRouter);
 // app.use('/api/exercises', exercisesRouter);
 // app.use('/api/diary', diaryRouter);
+
 
 app.use((req, res) => {
   res.status(404).json({ message: "Service not found" });
