@@ -1,7 +1,8 @@
-const bodyParts = require("../../data/bodyparts.json");
+const path = require("path");
 
 const getBodyParts = async (req, res) => {
-  res.json(bodyParts);
+  const filePath = path.join(__dirname, "../../data/bodyparts.json");
+  res.sendFile(filePath);
 };
 
 module.exports = getBodyParts;

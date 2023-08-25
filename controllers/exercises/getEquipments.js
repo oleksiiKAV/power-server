@@ -1,7 +1,8 @@
-const equipments = require("../../data/equipments.json");
+const path = require("path");
 
 const getEquipments = async (req, res) => {
-  res.json(equipments);
+  const filePath = path.join(__dirname, "../../data/equipments.json");
+  res.sendFile(filePath);
 };
 
 module.exports = getEquipments;

@@ -1,7 +1,8 @@
-const muscles = require("../../data/muscles.json");
+const path = require("path");
 
 const getMuscles = async (req, res) => {
-  res.json(muscles);
+  const filePath = path.join(__dirname, "../../data/muscles.json");
+  res.sendFile(filePath);
 };
 
 module.exports = getMuscles;
