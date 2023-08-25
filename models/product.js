@@ -1,19 +1,6 @@
-const fs = require("fs/promises");
-const path = require("path");
-const { handleMangooseError, HttpError } = require("../helpers");
+const { handleMangooseError } = require("../helpers");
 const { Schema, model } = require("mongoose");
 const Joi = require("joi");
-
-const productsPath = path.join(__dirname, "../data", "productsCategories.json");
-
-const categoryProducts = async () => {
-  try {
-    const data = await fs.readFile(productsPath, "utf-8");
-    return JSON.parse(data);
-  } catch (error) {
-    throw error;
-  }
-};
 
 const productSchema = new Schema(
   {
@@ -57,4 +44,4 @@ const Product = model("product", productSchema);
 
 const schemas = { addProductSchema };
 
-module.exports = { categoryProducts, Product, schemas };
+module.exports = { Product, schemas };
