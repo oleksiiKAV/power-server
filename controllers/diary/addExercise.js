@@ -16,6 +16,7 @@ const addExercise = async (req, res) => {
       const newNote = {
         date,
         burnedCalories: calories,
+        timeSport: time,
 
         doneExercises: [{ _id: exerciseId, time }],
         owner: id_user,
@@ -24,6 +25,7 @@ const addExercise = async (req, res) => {
       diaryDate = await Diary.create(newNote);
     } else {
       diaryDate.burnedCalories += calories;
+      diaryDate.timeSport += time;
 
       diaryDate.doneExercises.push({ _id: exerciseId, time });
       console.log("diaryDate2 :>> ", diaryDate);
