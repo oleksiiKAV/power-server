@@ -14,7 +14,12 @@ router.post(
   validateBody(schemas.addProductSchema),
   ctrl.addProduct
 );
-
 router.delete("/product/:id", ctrl.removeProduct);
+
+router.post(
+  "/exercise/add",
+  validateBody(schemas.addExerciseSchema),
+  ctrl.addExercise
+);
 
 module.exports = router;
