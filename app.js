@@ -3,6 +3,7 @@ const logger = require("morgan");
 const cors = require("cors");
 const usersRouter = require("./routes/api/auth");
 
+const exercisesRouter = require("./routes/api/exercises");
 const productsRouter = require("./routes/api/products");
 const diaryRouter = require("./routes/api/diary");
 
@@ -16,6 +17,7 @@ app.use(express.json());
 
 app.use("/api/users", usersRouter);
 
+app.use("/api/exercises", exercisesRouter);
 app.use("/api/products", productsRouter);
 app.use("/api/diaries", diaryRouter);
 
