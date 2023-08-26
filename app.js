@@ -18,9 +18,6 @@ app.use("/api/users", usersRouter);
 
 app.use("/api/products", productsRouter);
 app.use("/api/diaries", diaryRouter);
-// app.use('/api/exercises', exercisesRouter);
-// app.use('/api/diary', diaryRouter);
-
 
 app.use((req, res) => {
   res.status(404).json({ message: "Service not found" });
