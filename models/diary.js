@@ -25,6 +25,10 @@ const diarySchema = new Schema(
             type: Number,
             required: true,
           },
+          calories: {
+            type: Number,
+            required: true,
+          },
         },
       ],
       default: [],
@@ -68,13 +72,12 @@ diarySchema.post("save", handleMangooseError);
 const addProductSchema = Joi.object({
   date: Joi.string().required(),
   productId: Joi.string().required(),
-  calories: Joi.number().required(),
   amount: Joi.number().required(),
 });
 
 const removeProductSchema = Joi.object({
   date: Joi.string().required(),
-  product: Joi.string().required(),
+  productId: Joi.string().required(),
 });
 
 const addExersiceSchema = Joi.object({
