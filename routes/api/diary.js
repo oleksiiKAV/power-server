@@ -15,4 +15,10 @@ router.post(
   ctrl.addProduct
 );
 
+router.post(
+  "/exercise/add",
+  validateBody(schemas.addExerciseSchema),
+  ctrl.addExercise
+);
+
 module.exports = router;

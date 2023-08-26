@@ -40,12 +40,12 @@ const diarySchema = new Schema(
       required: true,
       default: 0,
     },
-    doneExersices: {
+    doneExercises: {
       type: [
         {
-          exersice: {
+          exercise: {
             type: Schema.Types.ObjectId,
-            ref: "exersice",
+            ref: "exercise",
           },
           time: Number,
           burnedCalories: Number,
@@ -77,22 +77,23 @@ const removeProductSchema = Joi.object({
   product: Joi.string().required(),
 });
 
-const addExersiceSchema = Joi.object({
+const addExerciseSchema = Joi.object({
   date: Joi.string().required(),
-  exersice: Joi.string().required(),
+  exerciseId: Joi.string().required(),
   time: Joi.number().required(),
+  calories: Joi.number().required(),
 });
 
-const removeExersiceSchema = Joi.object({
+const removeExerciseSchema = Joi.object({
   date: Joi.string().required(),
-  exersice: Joi.string().required(),
+  exercise: Joi.string().required(),
 });
 
 const schemas = {
   addProductSchema,
   removeProductSchema,
-  addExersiceSchema,
-  removeExersiceSchema,
+  addExerciseSchema,
+  removeExerciseSchema,
 };
 
 const Diary = model("diary", diarySchema);
