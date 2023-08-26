@@ -1,8 +1,7 @@
-const { CtrlWrapper } = require('../../helpers');
-const getProducts = require('./');
-//....
-
+const { CtrlWrapper } = require("../../helpers");
+const getCategoryProducts = require("./getProductsCategory");
+const getAdmissibleProduct = require("./getAdmissibleProducts");
 module.exports = {
-  getProducts: CtrlWrapper(getProducts),
-  //.....
+  getCategoryProducts: CtrlWrapper(getCategoryProducts),
+  getAdmissibleProduct: CtrlWrapper(getAdmissibleProduct),
 };
