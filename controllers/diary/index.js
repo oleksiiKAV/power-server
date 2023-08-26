@@ -1,8 +1,8 @@
-const { CtrlWrapper } = require('../../helpers');
-const addEatenProduct = require('./');
-//.....
+const { CtrlWrapper } = require("../../helpers");
+const addProduct = require("./addProduct");
+const removeProduct = require("./removeProduct");
 
 module.exports = {
-  addEatenProduct: CtrlWrapper(addEatenProduct),
-  //.....
+  addProduct: CtrlWrapper(addProduct),
+  removeProduct: CtrlWrapper(removeProduct),
 };
