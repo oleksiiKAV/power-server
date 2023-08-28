@@ -1,12 +1,20 @@
 const { Schema, model } = require("mongoose");
 const Joi = require("joi");
 
-const { handleMangooseError } = require("../helpers");
+const {
+  handleMangooseError,
+  errorDateMessages,
+  errorProductMessages,
+  errorAmountMessages,
+  dateRegexp,
+} = require("../helpers");
+const { validateDateInPast } = require("../middlewares");
 
 const diarySchema = new Schema(
   {
     date: {
       type: String,
+      match: dateRegexp,
       required: true,
     },
     consumedCalories: {
@@ -70,14 +78,24 @@ const diarySchema = new Schema(
 diarySchema.post("save", handleMangooseError);
 
 const addProductSchema = Joi.object({
-  date: Joi.string().required(),
-  productId: Joi.string().required(),
-  amount: Joi.number().required(),
+  date: Joi.string()
+    .required()
+    .empty(false)
+    .pattern(dateRegexp)
+    .custom(validateDateInPast)
+    .messages(errorDateMessages),
+  productId: Joi.string().required().messages(errorProductMessages),
+  amount: Joi.number().min(1).required().messages(errorAmountMessages),
 });
 
 const removeProductSchema = Joi.object({
-  date: Joi.string().required(),
-  productId: Joi.string().required(),
+  date: Joi.string()
+    .required()
+    .empty(false)
+    .pattern(dateRegexp)
+    .custom(validateDateInPast)
+    .messages(errorDateMessages),
+  productId: Joi.string().required().messages(errorProductMessages),
 });
 
 const addExerciseSchema = Joi.object({

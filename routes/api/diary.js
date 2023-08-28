@@ -21,5 +21,6 @@ router.post(
   validateBody(schemas.addExerciseSchema),
   ctrl.addExercise
 );
+router.get("/daily/:date", ctrl.getDailyData);
 
 module.exports = router;
