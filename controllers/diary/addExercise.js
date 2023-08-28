@@ -1,42 +1,58 @@
 const { Diary } = require("../../models/diary");
+const { Exercise } = require("../../models/exercise");
 
 const addExercise = async (req, res) => {
   const { _id: id_user } = req.user;
-  console.log("id_user :>> ", id_user);
 
-  console.log("req.body :>> ", req.body);
+  const { date, exerciseId, time } = req.body;
 
-  const { date, exerciseId, time, calories } = req.body;
+  const exercise = await Exercise.findById(exerciseId);
 
-  try {
-    let diaryDate = await Diary.findOne({ date, owner: id_user });
-
-    console.log("diaryDate :>> ", diaryDate);
-    if (!diaryDate) {
-      const newNote = {
-        date,
-        burnedCalories: calories,
-        timeSport: time,
-
-        doneExercises: [{ _id: exerciseId, time }],
-        owner: id_user,
-      };
-
-      diaryDate = await Diary.create(newNote);
-    } else {
-      diaryDate.burnedCalories += calories;
-      diaryDate.timeSport += time;
-
-      diaryDate.doneExercises.push({ _id: exerciseId, time });
-      console.log("diaryDate2 :>> ", diaryDate);
-      await diaryDate.save();
-    }
-
-    res.json(diaryDate);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal Server Error" });
+  if (!exercise) {
+    return res.status(404).json({ message: "Exercise not found" });
   }
+
+  const caloriesNorm = exercise.burnedCalories;
+  const timeNorm = exercise.time;
+  const burnedCalories = parseInt((caloriesNorm / timeNorm) * time, 10);
+
+  let diaryDate = await Diary.findOne({ date, owner: id_user });
+
+  if (!diaryDate) {
+    const newNote = {
+      date,
+      timeSport: time,
+      burnedCalories,
+
+      doneExercises: [{ _id: exerciseId, time, burnedCalories }],
+      owner: id_user,
+    };
+
+    diaryDate = await Diary.create(newNote);
+  } else {
+    diaryDate = await Diary.findByIdAndUpdate(
+      diaryDate._id,
+      {
+        $inc: { timeSport: time, burnedCalories: burnedCalories },
+        $push: {
+          doneExercises: {
+            _id: exerciseId,
+            time,
+            burnedCalories,
+          },
+        },
+      },
+      { new: true }
+    );
+  }
+
+  // diaryDate.burnedCalories += calories;
+  // diaryDate.timeSport += time;
+
+  // diaryDate.doneExercises.push({ _id: exerciseId, time });
+  // console.log("diaryDate2 :>> ", diaryDate);
+  // await diaryDate.save();
+  res.json(diaryDate);
 };
 
 module.exports = addExercise;

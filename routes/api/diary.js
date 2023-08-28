@@ -21,5 +21,6 @@ router.post(
   validateBody(schemas.addExerciseSchema),
   ctrl.addExercise
 );
+router.delete("/exercise/:id", ctrl.removeExercise);
 
 module.exports = router;

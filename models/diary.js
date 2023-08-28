@@ -84,7 +84,6 @@ const addExerciseSchema = Joi.object({
   date: Joi.string().required(),
   exerciseId: Joi.string().required(),
   time: Joi.number().required(),
-  calories: Joi.number().required(),
 });
 
 const removeExerciseSchema = Joi.object({
