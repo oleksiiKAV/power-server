@@ -21,6 +21,8 @@ router.post(
   validateBody(schemas.addExerciseSchema),
   ctrl.addExercise
 );
+
+router.delete("/exercise/:id", ctrl.removeExercise);
 router.get("/daily/:date", ctrl.getDailyData);
 
 module.exports = router;
