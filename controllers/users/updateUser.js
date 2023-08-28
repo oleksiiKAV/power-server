@@ -1,7 +1,7 @@
 const { HttpError } = require('../../helpers');
 const { User } = require('../../models/user');
 
-const defaultAvatar = 'http://localhost:5000/noname.png';
+const defaultAvatar = 'http://localhost:3000/noname.png';
 
 const updateUser = async (req, res) => {
   const { _id } = req.user;
