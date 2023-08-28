@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
+const { Schema, model } = require("mongoose");
 
-const exerciseSchema = new mongoose.Schema(
+const exerciseSchema = new Schema(
   {
     bodyPart: {
       type: String,
@@ -34,6 +34,6 @@ const exerciseSchema = new mongoose.Schema(
   { versionKey: false, timestamps: true }
 );
 
-const Exercise = mongoose.model("Exercise", exerciseSchema);
+const Exercise = model("exercise", exerciseSchema);
 
 module.exports = Exercise;
