@@ -4,13 +4,13 @@ const { Product } = require("../../models/product");
 const addProduct = async (req, res) => {
   const { _id: id_user } = req.user;
 
-  const { date, amount, productId } = req.body;
+  const { date, amount, product } = req.body;
 
-  const product = await Product.findById(productId);
+  const findProduct = await Product.findById(product);
 
-  const calories = product.calories;
+  const calories = findProduct.calories;
 
-  if (!product) {
+  if (!findProduct) {
     return res.status(404).json({ message: "Product not found" });
   }
 
@@ -23,7 +23,7 @@ const addProduct = async (req, res) => {
       date,
       consumedCalories: (calories * intAmount) / 100,
       consumedProducts: [
-        { _id: productId, amount, calories: (calories * intAmount) / 100 },
+        { product, amount, calories: (calories * intAmount) / 100 },
       ],
       owner: id_user,
     };
@@ -36,7 +36,7 @@ const addProduct = async (req, res) => {
         $inc: { consumedCalories: +((calories * intAmount) / 100) },
         $push: {
           consumedProducts: {
-            _id: productId,
+            product,
             amount,
             calories: (calories * intAmount) / 100,
           },

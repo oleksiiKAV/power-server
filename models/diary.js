@@ -25,7 +25,7 @@ const diarySchema = new Schema(
     consumedProducts: {
       type: [
         {
-          productId: {
+          product: {
             type: Schema.Types.ObjectId,
             ref: "product",
           },
@@ -84,7 +84,7 @@ const addProductSchema = Joi.object({
     .pattern(dateRegexp)
     .custom(validateDateInPast)
     .messages(errorDateMessages),
-  productId: Joi.string().required().messages(errorProductMessages),
+  product: Joi.string().required().messages(errorProductMessages),
   amount: Joi.number().min(1).required().messages(errorAmountMessages),
 });
 
@@ -95,7 +95,7 @@ const removeProductSchema = Joi.object({
     .pattern(dateRegexp)
     .custom(validateDateInPast)
     .messages(errorDateMessages),
-  productId: Joi.string().required().messages(errorProductMessages),
+  product: Joi.string().required().messages(errorProductMessages),
 });
 
 const addExerciseSchema = Joi.object({
