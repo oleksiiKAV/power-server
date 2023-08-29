@@ -13,7 +13,7 @@ const removeExercise = async (req, res) => {
   }
 
   const completedExercises = foundDiary.doneExercises.find(
-    (exercise) => exercise._id.toString() === exerciseId
+    (doneExercise) => doneExercise._id.toString() === exerciseId
   );
 
   if (!completedExercises) {
@@ -25,7 +25,7 @@ const removeExercise = async (req, res) => {
     {
       $inc: { burnedCalories: -completedExercises.calories },
       $inc: { timeSport: -completedExercises.time },
-      $pull: { doneExercises: { _id: exerciseId } },
+      $pull: { doneExercises: { _id: completedExercises._id } },
     },
     { new: true }
   ).select("-createdAt -updatedAt");
