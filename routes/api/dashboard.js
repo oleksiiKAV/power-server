@@ -19,15 +19,12 @@ router.get('/', async (req, res, next) => {
     const totalTrainingHoursResult = await Diary.aggregate([
         { $group: { _id: null, totalHours: { $sum: '$timeSport' } } },
       ]);
-      const totalTrainingMinutes = totalTrainingHoursResult[0]?.totalHours || 0;
-        
-      const hours = Math.floor(totalTrainingMinutes / 60);
-      const minutes = totalTrainingMinutes % 60;
-        
-      const formattedHours = String(hours).padStart(2, '0');
-      const formattedMinutes = String(minutes).padStart(2, '0');
       
-      const totalTrainingTime = `${formattedHours}:${formattedMinutes}`;
+      const totalTrainingMinutes = totalTrainingHoursResult[0]?.totalHours || 0;
+      const hours = Math.floor(totalTrainingMinutes / 60);
+      
+      const totalTrainingTime = hours < 100 ? hours.toString().padStart(2, '0') : `${hours}`;
+      
 
     const totalCompletedTrainingsResult = await Diary.aggregate([
       { $group: { _id: null, totalCount: { $sum: { $size: '$doneExercises' } } } },
