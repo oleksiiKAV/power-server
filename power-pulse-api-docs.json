@@ -47,7 +47,7 @@
         ],
         "summary": "Get general information from application",        
         "responses": {
-          "201": {
+          "200": {
             "description": "Successful operation",
             "content": {
               "application/json": {
