@@ -11,9 +11,9 @@ const removeProduct = async (req, res) => {
     throw HttpError(401, "No data found for this date");
   }
 
-  const eatenProduct = foundDiary.consumedProducts.find(
-    (consumedProduct) => consumedProduct._id.toString() === productId
-  );
+  const eatenProduct = foundDiary.consumedProducts.find((consumedProduct) => {
+    return consumedProduct._id.toString() === productId;
+  });
 
   if (!eatenProduct) {
     throw HttpError(401, "This product not found");
