@@ -46,12 +46,6 @@ const addExercise = async (req, res) => {
     );
   }
 
-  // diaryDate.burnedCalories += calories;
-  // diaryDate.timeSport += time;
-
-  // diaryDate.doneExercises.push({ _id: exerciseId, time });
-  // console.log("diaryDate2 :>> ", diaryDate);
-  // await diaryDate.save();
   res.json(diaryDate);
 };
 
