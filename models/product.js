@@ -4,10 +4,6 @@ const Joi = require("joi");
 
 const productSchema = new Schema(
   {
-    _id: {
-      type: String,
-      required: true,
-    },
     weight: {
       type: Number,
       required: [true, "Set weight"],
