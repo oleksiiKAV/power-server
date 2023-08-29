@@ -29,7 +29,7 @@ const userSchema = Schema(
     avatar: {
       type: String,
       required: true,
-      default: 'https://res.cloudinary.com/ditdqzoio/image/upload/v1689380120/avatars/noname.png',
+      default: 'https://res.cloudinary.com/dhgbndjlm/image/upload/v1693235748/avatars/kvn40yxqcamrcdhilafx.png',
     },
     bodyData: {
       _id: false,
@@ -125,6 +125,10 @@ const updateSchema = Joi.object({
   name: Joi.string().empty(false).messages({
     'string.base': 'The name must be a string.',
     'string.empty': 'The name must not be empty',
+  }),
+  avatar: Joi.string().empty(false).messages({
+    'string.base': 'The name must be a string.',
+    'string.empty': 'The file pathname must not be empty',
   })
 });
 const addBodyDataSchema = Joi.object({

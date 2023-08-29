@@ -1,0 +1,766 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "version": "1.0.0",
+    "title": "PowerPulse",
+    "description": "PowerPulse backend"
+  },
+  "servers": [
+    {
+      "url": "https://powerpulse-y0gd.onrender.com/api"
+    },
+    {
+      "url": "http://localhost:3000/api"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "Authorization endpoints"
+    },
+    {
+      "name": "Users",
+      "description": "Users endpoints"
+    },
+    {
+      "name": "Products",
+      "description": "Products endpoints"
+    },
+    {
+      "name": "Exercises",
+      "description": "Exercises endpoints"
+    },
+    {
+      "name": "Diary",
+      "description": "Diary endpoints"
+    }
+  ],
+  "paths": {
+    "/users/signup": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "User sign up",
+        "requestBody": {
+          "description": "Sign up object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignUpRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SignUpResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          },
+          "409": {
+            "description": "Such email already exists",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/users/signin": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "User sign in",
+        "requestBody": {
+          "description": "Sign in object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignInRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SignInResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          },
+          "401": {
+            "description": "Email or password invalid",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/users/current": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Get current user info",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetCurrentResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/users/signout": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "User sign out",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SignOutResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/users/body": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Add user body data info",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "requestBody": {
+          "description": "Add user body data object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddBodyRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddBodyResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/users/current/edit": {
+      "patch": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "User update",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "requestBody": {
+          "description": "Update object",
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "description": "User name",
+                    "type": "string",
+                    "format": "json",
+                    "example": "UserName"
+                  },
+                  "avatar": {
+                    "description": "File to upload",
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserUpdateResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "SignUpRequest": {
+        "type": "object",
+        "required": [
+          "name",
+          "email",
+          "password"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "User name",
+            "example": "UserName"
+          },
+          "email": {
+            "type": "string",
+            "description": "User email",
+            "example": "mail@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "description": "User password",
+            "example": "abcdef1"
+          }
+        }
+      },
+      "SignUpResponse": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User email",
+            "example": "mail@gmail.com"
+          },
+          "name": {
+            "type": "string",
+            "description": "User name",
+            "example": "UserName"
+          },
+          "bodyData": {
+            "type": "object",
+            "description": "User body data",
+            "example": null
+          },
+          "token": {
+            "type": "string",
+            "description": "User token",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZTYxNzUyYTMzZGYxNzNhOTk1Mzc2YyIsImlhdCI6MTY5MzIxOTQ4NSwiZXhwIjoxNjkzMzAyMjg1fQ.IsTt6p3jiZxutBpEkiz7i4IgKpgVISUMH5VZksS0V50"
+          }
+        },
+        "example": {
+          "email": "mail@gmail.com",
+          "name": "UserName",
+          "bodyData": null,
+          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZTYxNzUyYTMzZGYxNzNhOTk1Mzc2YyIsImlhdCI6MTY5MzIxOTQ4NSwiZXhwIjoxNjkzMzAyMjg1fQ.IsTt6p3jiZxutBpEkiz7i4IgKpgVISUMH5VZksS0V50"
+        }
+      },
+      "SignInRequest": {
+        "type": "object",
+        "required": [
+          "email",
+          "password"
+        ],
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User email",
+            "example": "mail@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "description": "User password",
+            "example": "abcdef1"
+          }
+        }
+      },
+      "SignInResponse": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User email",
+            "example": "mail@gmail.com"
+          },
+          "name": {
+            "type": "string",
+            "description": "User name",
+            "example": "UserName"
+          },
+          "bodyData": {
+            "type": "object",
+            "description": "User body data",
+            "example": [
+              null,
+              {
+                "height": 169,
+                "currentWeight": 145,
+                "desiredWeight": 129,
+                "birthday": "1971-02-12T23:00:00.000Z",
+                "blood": 1,
+                "sex": "male",
+                "levelActivity": 3,
+                "dailyRateCalories": 799,
+                "dailySportMin": 20
+              }
+            ]
+          },
+          "token": {
+            "type": "string",
+            "description": "User token",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZTYxNzUyYTMzZGYxNzNhOTk1Mzc2YyIsImlhdCI6MTY5MzIxOTQ4NSwiZXhwIjoxNjkzMzAyMjg1fQ.IsTt6p3jiZxutBpEkiz7i4IgKpgVISUMH5VZksS0V50"
+          }
+        },
+        "example": {
+          "email": "mail@gmail.com",
+          "name": "UserName",
+          "bodyData": {
+            "height": 169,
+                "currentWeight": 145,
+                "desiredWeight": 129,
+                "birthday": "1971-02-12T23:00:00.000Z",
+                "blood": 1,
+                "sex": "male",
+                "levelActivity": 3,
+                "dailyRateCalories": 799,
+                "dailySportMin": 20
+          },
+          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZTYxNzUyYTMzZGYxNzNhOTk1Mzc2YyIsImlhdCI6MTY5MzIxOTQ4NSwiZXhwIjoxNjkzMzAyMjg1fQ.IsTt6p3jiZxutBpEkiz7i4IgKpgVISUMH5VZksS0V50"
+        }
+      },
+      "GetCurrentResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "User id",
+            "example": "64e61752a33df173a995376c"
+          },
+          "name": {
+            "type": "string",
+            "description": "User name",
+            "example": "UserName"
+          },
+          "email": {
+            "type": "string",
+            "description": "User email",
+            "example": "mail@gmail.com"
+          },
+          "token": {
+            "type": "string",
+            "description": "User token",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZTYxNzUyYTMzZGYxNzNhOTk1Mzc2YyIsImlhdCI6MTY5MzIxOTQ4NSwiZXhwIjoxNjkzMzAyMjg1fQ.IsTt6p3jiZxutBpEkiz7i4IgKpgVISUMH5VZksS0V50"
+          },
+          "avatar": {
+            "type": "string",
+            "description": "User avatar",
+            "example": "https://res.cloudinary.com/dhgbndjlm/image/upload/v1693235748/avatars/kvn40yxqcamrcdhilafx.png"
+            
+          },
+          "bodyData": {
+            "type": "object",
+            "description": "User body data",
+            "example": [
+              null,
+              {
+                "height": 169,
+                "currentWeight": 145,
+                "desiredWeight": 129,
+                "birthday": "1971-02-12T23:00:00.000Z",
+                "blood": 1,
+                "sex": "male",
+                "levelActivity": 3,
+                "dailyRateCalories": 799,
+                "dailySportMin": 20
+              }
+            ]
+          }
+        },
+        "example": {
+          "_id": "64b1e25f6b0a2ccb95591ec7",
+          "name": "UserName",
+          "email": "mail@gmail.com",
+          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YjFlMjVmNmIwYTJjY2I5NTU5MWVjNyIsImlhdCI6MTY4OTM3OTQyMywiZXhwIjoxNjg5NDYyMjIzfQ.hT2Ta6pBhDR1vOF7LjcKxofyASDPjcTZtFi9CESKIuA",
+          "avatar": "https://res.cloudinary.com/dhgbndjlm/image/upload/v1693235748/avatars/kvn40yxqcamrcdhilafx.png",
+          "bodyData": {
+            "height": 169,
+                "currentWeight": 145,
+                "desiredWeight": 129,
+                "birthday": "1971-02-12T23:00:00.000Z",
+                "blood": 1,
+                "sex": "male",
+                "levelActivity": 3,
+                "dailyRateCalories": 799,
+                "dailySportMin": 20
+          }
+        }
+      },
+      "AddBodyRequest": {
+        "type": "object",
+        "required": [
+          "height",
+          "currentWeight",
+          "desiredWeight",
+          "birthday",
+          "blood",
+          "sex",
+          "levelActivity"
+        ],
+        "properties": {
+          "height": {
+            "type": "number",
+            "description": "User height",
+            "example": 169
+          },
+          "currentWeight": {
+            "type": "number",
+            "description": "User's current weight",
+            "example": 145
+          },
+          "desiredWeight": {
+            "type": "number",
+            "description": "User's desired weight",
+            "example": 129
+          },
+          "birthday": {
+            "type": "number",
+            "description": "User's birthday",
+            "format": "date",
+            "example": "1971-02-12T23:00:00.000Z"
+          },
+          "blood": {
+            "type": "integer",
+            "enum": [
+              1,
+              2,
+              3,
+              4
+            ],
+            "description": "User's blood type",
+            "example": 1
+          },
+          "sex": {
+            "type": "string",
+            "enum": [
+              "male",
+              "female"
+            ],
+            "description": "User's sex",
+            "example": "male"
+          },
+          "levelActivity": {
+            "type": "integer",
+            "enum": [
+              1,
+              2,
+              3,
+              4
+            ],
+            "description": "User's level activity",
+            "example": 3
+          }
+        }
+      },
+      "AddBodyResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "User id",
+            "example": "64b1e25f6b0a2ccb95591ec7"
+          },
+          "name": {
+            "type": "string",
+            "description": "User name",
+            "example": "UserName"
+          },
+          "email": {
+            "type": "string",
+            "description": "User email",
+            "example": "mail@gmail.com"
+          },
+          "token": {
+            "type": "string",
+            "description": "User token",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YjFlMjVmNmIwYTJjY2I5NTU5MWVjNyIsImlhdCI6MTY4OTM3OTQyMywiZXhwIjoxNjg5NDYyMjIzfQ.hT2Ta6pBhDR1vOF7LjcKxofyASDPjcTZtFi9CESKIuA"
+          },
+          "avatar": {
+            "type": "string",
+            "description": "User avatar",
+            "example": "https://res.cloudinary.com/dhgbndjlm/image/upload/v1693235748/avatars/kvn40yxqcamrcdhilafx.png"
+          },
+          "bodyData": {
+            "type": "object",
+            "description": "User body data",
+            "example": [
+              null,
+              {
+                "height": 169,
+                "currentWeight": 145,
+                "desiredWeight": 129,
+                "birthday": "1971-02-12T23:00:00.000Z",
+                "blood": 1,
+                "sex": "male",
+                "levelActivity": 3,
+                "dailyRateCalories": 799,
+                "dailySportMin": 20
+              }
+            ]
+          }
+        },
+        "example": {
+          "_id": "64b1e25f6b0a2ccb95591ec7",
+          "name": "UserName",
+          "email": "mail@gmail.com",
+          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YjFlMjVmNmIwYTJjY2I5NTU5MWVjNyIsImlhdCI6MTY4OTM3OTQyMywiZXhwIjoxNjg5NDYyMjIzfQ.hT2Ta6pBhDR1vOF7LjcKxofyASDPjcTZtFi9CESKIuA",
+          "avatar": "https://res.cloudinary.com/dhgbndjlm/image/upload/v1693235748/avatars/kvn40yxqcamrcdhilafx.png",
+          "bodyData": {
+            "height": 169,
+                "currentWeight": 145,
+                "desiredWeight": 129,
+                "birthday": "1971-02-12T23:00:00.000Z",
+                "blood": 1,
+                "sex": "male",
+                "levelActivity": 3,
+                "dailyRateCalories": 799,
+                "dailySportMin": 20
+          }
+        }
+      },
+      "UserUpdateRequest": {
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "User name",
+            "example": "UserName"
+          },
+          "avatar": {
+            "type": "string",
+            "description": "User image",
+            "example": "https://res.cloudinary.com/dhgbndjlm/image/upload/v1693235748/avatars/kvn40yxqcamrcdhilafx.png"
+          }
+        }
+      },
+      "UserUpdateResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "User id",
+            "example": "64b1e25f6b0a2ccb95591ec7"
+          },
+          "name": {
+            "type": "string",
+            "description": "User name",
+            "example": "UserName"
+          },
+          "email": {
+            "type": "string",
+            "description": "User email",
+            "example": "mail@gmail.com"
+          },
+          "token": {
+            "type": "string",
+            "description": "User token",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YjFlMjVmNmIwYTJjY2I5NTU5MWVjNyIsImlhdCI6MTY4OTM3OTQyMywiZXhwIjoxNjg5NDYyMjIzfQ.hT2Ta6pBhDR1vOF7LjcKxofyASDPjcTZtFi9CESKIuA"
+          },
+          "avatar": {
+            "type": "string",
+            "description": "User avatar",
+            "example": "https://res.cloudinary.com/dhgbndjlm/image/upload/v1693235748/avatars/kvn40yxqcamrcdhilafx.png"
+          },
+          "bodyData": {
+            "type": "object",
+            "description": "User body data",
+            "example": [
+              null,
+              {
+                "height": 190,
+                "currentWeight": 130,
+                "desiredWeight": 109,
+                "birthday": "1991-05-24T23:00:00.000Z",
+                "blood": 3,
+                "sex": "male",
+                "levelActivity": 1,
+                "dailyRateCalories": 2799,
+                "dailySportMin": 110
+              }
+            ]
+          }
+        },
+        "example": {
+          "_id": "64b1e25f6b0a2ccb95591ec7",
+          "name": "UserName",
+          "email": "mail@gmail.com",
+          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YjFlMjVmNmIwYTJjY2I5NTU5MWVjNyIsImlhdCI6MTY4OTM3OTQyMywiZXhwIjoxNjg5NDYyMjIzfQ.hT2Ta6pBhDR1vOF7LjcKxofyASDPjcTZtFi9CESKIuA",
+          "avatar": "https://res.cloudinary.com/dhgbndjlm/image/upload/v1693235748/avatars/kvn40yxqcamrcdhilafx.png",
+          "bodyData": {
+            "height": 190,
+            "currentWeight": 130,
+            "desiredWeight": 109,
+            "birthday": "Mon May 24 1991 00:00:00 GMT+0100 GMT+0100",
+            "blood": 3,
+            "sex": "male",
+            "levelActivity": 1,
+            "dailyRateCalories": 2799,
+            "dailySportMin": 110
+          }
+        }
+      },
+      "SignOutResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Sign out success",
+            "example": "Sign out success"
+          }
+        },
+        "example": {
+          "message": "Sign out success"
+        }
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
