@@ -24,7 +24,7 @@ test.describe.parallel('User Sign Up API Testing', () => {
       expect(responseBody.message).toBe(testCase.expectedMessage);
     });
   }
-  test.only(`User registration  - valid body data. Checking existing users with the same email.`, async ({ request }) => {
+  test(`User registration  - valid body data. Checking existing users with the same email.`, async ({ request }) => {
     const response = await request.post(`${baseUrl}/users/signup`, { data: singnUpValidBody.userData })
     const responseBody = JSON.parse(await response.text())
     const expectedStatus = 201;
@@ -51,7 +51,4 @@ test.describe.parallel('User Sign Up API Testing', () => {
     });
     expect(deleteResponse.status()).toBe(200);
   });
-
-
-
 })

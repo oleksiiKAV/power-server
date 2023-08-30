@@ -1,6 +1,6 @@
 import { PlaywrightTestConfig } from '@playwright/test'
 import { defineConfig } from '@playwright/test';
-
+// reporter: [['html', { open: 'never' }]],
 const config: PlaywrightTestConfig = {
   timeout: 60000,
   retries: 0,
@@ -12,7 +12,8 @@ const config: PlaywrightTestConfig = {
     video: 'retain-on-failure',
     screenshot: 'only-on-failure',
   },
-  reporter: [['html', { open: 'never' }]],
+  
+  reporter: process.env.CI ? 'blob' : 'html',
   projects: [
     {
       name: 'Chromium',
