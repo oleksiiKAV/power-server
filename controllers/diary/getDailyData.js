@@ -20,6 +20,10 @@ const getDailyData = async (req, res, next) => {
     .select("-createdAt -updatedAt")
     .lean();
 
+  if (!data) {
+    throw HttpError(404, "No data found for the specified date");
+  }
+
   const consumedProducts = await Promise.all(
     data.consumedProducts.map(async (product) => {
       if (product.product) {
@@ -37,8 +41,8 @@ const getDailyData = async (req, res, next) => {
 
   const doneExercises = await Promise.all(
     data.doneExercises.map(async (exercise) => {
-      if (exercise._id) {
-        const fullExercise = await Exercise.findById(exercise._id).lean();
+      if (exercise.exercise) {
+        const fullExercise = await Exercise.findById(exercise.exercise).lean();
         if (fullExercise) {
           return {
             ...exercise,
