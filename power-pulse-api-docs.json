@@ -343,6 +343,7 @@
           }
         }
       }
+
     },
     "/diaries/exercise/add": {
       "post": {
@@ -359,6 +360,70 @@
             }
           }
         },
+    },    
+    "/products": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Get information for products category",        
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductsCategoryResponse"
+                }
+              }
+            }
+          },          
+          "404": {
+            "description": "Not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/products/admissible": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Get information for products list",        
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductsListResponse"
+                }
+              }
+            }
+          },          
+          "404": {
+            "description": "Not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
+          }
+        }
+      }
+    },
+     "/products/admissible/?filter=false": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Get information about the list of products filtered with the permission of the blood group",        
+
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -374,6 +439,61 @@
             "description": "Bad request (invalid request body)",
             "content": {}
           },
+                  "$ref": "#/components/schemas/ProductsListFilteredBloodResponse"
+                }
+              }
+            }
+          },          
+          "404": {
+            "description": "Not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/products/admissible/?category=*": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Get information about the list of products filtered by category group",        
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductsListFilteredCategoryResponse"
+                }
+              }
+            }
+          },          
+          "404": {
+            "description": "Not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
+          }
+        }
+      }
+    },
+       "/products/admissible/?page=1&limit=5": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Get information about pagination of products list",        
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+           
+          },          
           "404": {
             "description": "Not found",
             "content": {}
@@ -796,7 +916,8 @@
             "dailySportMin": 110
           }
         }
-      },
+      },      
+      
       "SignOutResponse": {
         "type": "object",
         "properties": {
@@ -805,10 +926,657 @@
             "description": "Sign out success",
             "example": "Sign out success"
           }
+        }       
+      },
+      "ProductsCategoryResponse": {
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "array",
+              "description": "",
+              "example": [
+    "alcoholic drinks",
+    "berries",
+    "cereals",
+    "dairy",
+    "dried fruits",
+    "eggs",
+    "fish",
+    "flour",
+    "fruits",
+    "meat",
+    "mushrooms",
+    "nuts",
+    "oils and fats",
+    "poppy",
+    "sausage",
+    "seeds",
+    "sesame",
+    "soft drinks",
+    "vegetables and herbs"
+]
+            }
+          }
+          
         },
-        "example": {
-          "message": "Sign out success"
+        "ProductsListResponse": {
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "object",
+              "description": "Sign out success",
+              "example": [
+    {
+        "_id": "5d51694902b2373622ff5ccf",
+        "weight": 100,
+        "calories": 110,
+        "category": "dried fruits",
+        "title": "Dried rosehip",
+        "groupBloodNotAllowed": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false
         }
+    },
+    {
+        "_id": "5d51694902b2373622ff5c95",
+        "weight": 100,
+        "calories": 213,
+        "category": "nuts",
+        "title": "Canned chestnut",
+        "groupBloodNotAllowed": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": true
+        }
+    },
+    {
+        "_id": "5d51694902b2373622ff5cb8",
+        "weight": 100,
+        "calories": 305,
+        "category": "seeds",
+        "title": "Dill seeds",
+        "groupBloodNotAllowed": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false
+        }
+    },
+    {
+        "_id": "5d51694902b2373622ff5e03",
+        "weight": 100,
+        "calories": 91,
+        "category": "vegetables and herbs",
+        "title": "Cocktail salad Bonduelle Hawaiian marinated",
+        "groupBloodNotAllowed": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false
+        }
+    },
+    {
+        "_id": "5d51694902b2373622ff5ef6",
+        "weight": 100,
+        "calories": 100,
+        "category": "soft drinks",
+        "title": "Coffee Maxwell House instant dry",
+        "groupBloodNotAllowed": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false
+        }
+    },
+    {
+        "_id": "5d51694902b2373622ff5bf2",
+        "weight": 100,
+        "calories": 50,
+        "category": "fruits",
+        "title": "Feronia (Wooden Apple)",
+        "groupBloodNotAllowed": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false
+        }
+    },
+    {
+        "_id": "5d51694902b2373622ff57bd",
+        "weight": 100,
+        "calories": 327,
+        "category": "dairy",
+        "title": "Reblochon cheese",
+        "groupBloodNotAllowed": {
+            "1": true,
+            "2": true,
+            "3": false,
+            "4": false
+        }
+    },
+    {
+        "_id": "5d51694902b2373622ff599e",
+        "weight": 100,
+        "calories": 240,
+        "category": "meat",
+        "title": "Chopped lamb cutlets",
+        "groupBloodNotAllowed": {
+            "1": false,
+            "2": true,
+            "3": false,
+            "4": true
+        }
+    },
+    {
+        "_id": "5d51694902b2373622ff5a46",
+        "weight": 100,
+        "calories": 31,
+        "category": "berries",
+        "title": "Blackberry 4 seasons",
+        "groupBloodNotAllowed": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false
+        }
+    },
+    {
+        "_id": "5d51694802b2373622ff55a5",
+        "weight": 100,
+        "calories": 364,
+        "category": "cereals",
+        "title": "Oatmeal Myllyn Paras Tropic Sugar",
+        "groupBloodNotAllowed": {
+            "1": true,
+            "2": false,
+            "3": false,
+            "4": false
+        }
+    },
+    {
+        "_id": "5d51694802b2373622ff55ab",
+        "weight": 100,
+        "calories": 88,
+        "category": "cereals",
+        "title": "Oatmeal on the water",
+        "groupBloodNotAllowed": {
+            "1": true,
+            "2": false,
+            "3": false,
+            "4": false
+        }
+    },
+    {
+        "_id": "5d51694902b2373622ff5779",
+        "weight": 100,
+        "calories": 265,
+        "category": "dairy",
+        "title": "Cheese Dor Blue a la creme",
+        "groupBloodNotAllowed": {
+            "1": true,
+            "2": true,
+            "3": false,
+            "4": false
+        }
+    },
+    {
+        "_id": "5d51694902b2373622ff5b81",
+        "weight": 100,
+        "calories": 180,
+        "category": "fish",
+        "title": "Butter fish smoked",
+        "groupBloodNotAllowed": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false
+        }
+    },
+    {
+        "_id": "5d51694902b2373622ff5920",
+        "weight": 100,
+        "calories": 142,
+        "category": "meat",
+        "title": "Pork beef stroganoff",
+        "groupBloodNotAllowed": {
+            "1": false,
+            "2": true,
+            "3": false,
+            "4": true
+        }
+    },
+    {
+        "_id": "5d51694902b2373622ff5953",
+        "weight": 100,
+        "calories": 86,
+        "category": "meat",
+        "title": "beef kidneys",
+        "groupBloodNotAllowed": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false
+        }
+    },
+    {
+        "_id": "5d51694902b2373622ff5b14",
+        "weight": 100,
+        "calories": 87,
+        "category": "fish",
+        "title": "Pike caviar",
+        "groupBloodNotAllowed": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false
+        }
+    },
+    {
+        "_id": "5d51694902b2373622ff5b58",
+        "weight": 100,
+        "calories": 125,
+        "category": "fish",
+        "title": "red-eyed",
+        "groupBloodNotAllowed": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false
+        }
+    },
+    {
+        "_id": "5d51694902b2373622ff5e5b",
+        "weight": 100,
+        "calories": 24,
+        "category": "vegetables and herbs",
+        "title": "Green beans",
+        "groupBloodNotAllowed": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": true
+        }
+    },
+    {
+        "_id": "5d51694802b2373622ff55bf",
+        "weight": 100,
+        "calories": 350,
+        "category": "cereals",
+        "title": "Oat flakes Myllyn Paras",
+        "groupBloodNotAllowed": {
+            "1": true,
+            "2": false,
+            "3": false,
+            "4": false
+        }
+    },
+    {
+        "_id": "5d51694902b2373622ff5b2b",
+        "weight": 100,
+        "calories": 138,
+        "category": "fish",
+        "title": "Canned carp",
+        "groupBloodNotAllowed": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false
+        }
+    }
+]
+            }
+          }
+          
+        },
+        "ProductsListFilteredBloodResponse":{
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "object",
+              "description": "Sign out success",
+              "example": [
+    {
+        "_id": "5d51694902b2373622ff5ccf",
+        "weight": 100,
+        "calories": 110,
+        "category": "dried fruits",
+        "title": "Dried rosehip",
+        "groupBloodNotAllowed": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false
+        }
+    },
+    {
+        "_id": "5d51694902b2373622ff5c95",
+        "weight": 100,
+        "calories": 213,
+        "category": "nuts",
+        "title": "Canned chestnut",
+        "groupBloodNotAllowed": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": true
+        }
+    },
+    {
+        "_id": "5d51694902b2373622ff5cb8",
+        "weight": 100,
+        "calories": 305,
+        "category": "seeds",
+        "title": "Dill seeds",
+        "groupBloodNotAllowed": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false
+        }
+    },
+    {
+        "_id": "5d51694902b2373622ff5e03",
+        "weight": 100,
+        "calories": 91,
+        "category": "vegetables and herbs",
+        "title": "Cocktail salad Bonduelle Hawaiian marinated",
+        "groupBloodNotAllowed": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false
+        }
+    },
+    {
+        "_id": "5d51694902b2373622ff5ef6",
+        "weight": 100,
+        "calories": 100,
+        "category": "soft drinks",
+        "title": "Coffee Maxwell House instant dry",
+        "groupBloodNotAllowed": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false
+        }
+    },
+    {
+        "_id": "5d51694902b2373622ff5bf2",
+        "weight": 100,
+        "calories": 50,
+        "category": "fruits",
+        "title": "Feronia (Wooden Apple)",
+        "groupBloodNotAllowed": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false
+        }
+    },
+    {
+        "_id": "5d51694902b2373622ff5a46",
+        "weight": 100,
+        "calories": 31,
+        "category": "berries",
+        "title": "Blackberry 4 seasons",
+        "groupBloodNotAllowed": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false
+        }
+    },
+    {
+        "_id": "5d51694802b2373622ff55a5",
+        "weight": 100,
+        "calories": 364,
+        "category": "cereals",
+        "title": "Oatmeal Myllyn Paras Tropic Sugar",
+        "groupBloodNotAllowed": {
+            "1": true,
+            "2": false,
+            "3": false,
+            "4": false
+        }
+    },
+    {
+        "_id": "5d51694802b2373622ff55ab",
+        "weight": 100,
+        "calories": 88,
+        "category": "cereals",
+        "title": "Oatmeal on the water",
+        "groupBloodNotAllowed": {
+            "1": true,
+            "2": false,
+            "3": false,
+            "4": false
+        }
+    },
+    {
+        "_id": "5d51694902b2373622ff5b81",
+        "weight": 100,
+        "calories": 180,
+        "category": "fish",
+        "title": "Butter fish smoked",
+        "groupBloodNotAllowed": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false
+        }
+    },
+    {
+        "_id": "5d51694902b2373622ff5953",
+        "weight": 100,
+        "calories": 86,
+        "category": "meat",
+        "title": "beef kidneys",
+        "groupBloodNotAllowed": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false
+        }
+    },
+    {
+        "_id": "5d51694902b2373622ff5b14",
+        "weight": 100,
+        "calories": 87,
+        "category": "fish",
+        "title": "Pike caviar",
+        "groupBloodNotAllowed": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false
+        }
+    },
+    {
+        "_id": "5d51694902b2373622ff5b58",
+        "weight": 100,
+        "calories": 125,
+        "category": "fish",
+        "title": "red-eyed",
+        "groupBloodNotAllowed": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false
+        }
+    },
+    {
+        "_id": "5d51694902b2373622ff5e5b",
+        "weight": 100,
+        "calories": 24,
+        "category": "vegetables and herbs",
+        "title": "Green beans",
+        "groupBloodNotAllowed": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": true
+        }
+    },
+    {
+        "_id": "5d51694802b2373622ff55bf",
+        "weight": 100,
+        "calories": 350,
+        "category": "cereals",
+        "title": "Oat flakes Myllyn Paras",
+        "groupBloodNotAllowed": {
+            "1": true,
+            "2": false,
+            "3": false,
+            "4": false
+        }
+    },
+    {
+        "_id": "5d51694902b2373622ff5b2b",
+        "weight": 100,
+        "calories": 138,
+        "category": "fish",
+        "title": "Canned carp",
+        "groupBloodNotAllowed": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false
+        }
+    },
+    {
+        "_id": "5d51694902b2373622ff5b9d",
+        "weight": 100,
+        "calories": 67,
+        "category": "fruits",
+        "title": "Apricot canned",
+        "groupBloodNotAllowed": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false
+        }
+    },
+    {
+        "_id": "5d51694902b2373622ff5d12",
+        "weight": 100,
+        "calories": 31,
+        "category": "vegetables and herbs",
+        "title": "Broccoli 4 seasons",
+        "groupBloodNotAllowed": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false
+        }
+    },
+    {
+        "_id": "5d51694902b2373622ff5bea",
+        "weight": 100,
+        "calories": 25,
+        "category": "fruits",
+        "title": "Syzygium",
+        "groupBloodNotAllowed": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false
+        }
+    },
+    {
+        "_id": "5d51694902b2373622ff5a9a",
+        "weight": 100,
+        "calories": 274,
+        "category": "sausage",
+        "title": "Krovyanka",
+        "groupBloodNotAllowed": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false
+        }
+    }
+]
+            }
+          }
+        },
+        "ProductsListFilteredCategoryResponse":{
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "object",
+              "description": "Sign out success",
+              "example": [
+    {
+        "_id": "5d51694902b2373622ff5c95",
+        "weight": 100,
+        "calories": 213,
+        "category": "nuts",
+        "title": "Canned chestnut",
+        "groupBloodNotAllowed": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": true
+        }
+    },
+    {
+        "_id": "5d51694902b2373622ff5cad",
+        "weight": 100,
+        "calories": 354,
+        "category": "nuts",
+        "title": "Seychelles Walnut Coco de Mer",
+        "groupBloodNotAllowed": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": true
+        }
+    },
+    {
+        "_id": "5d51694902b2373622ff5c97",
+        "weight": 100,
+        "calories": 680,
+        "category": "nuts",
+        "title": "Pine nuts",
+        "groupBloodNotAllowed": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": true
+        }
+    },
+    {
+        "_id": "5d51694902b2373622ff5c9c",
+        "weight": 100,
+        "calories": 354,
+        "category": "nuts",
+        "title": "Coconut",
+        "groupBloodNotAllowed": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": true
+        }
+    },
+    {
+        "_id": "5d51694902b2373622ff5c86",
+        "weight": 100,
+        "calories": 656,
+        "category": "nuts",
+        "title": "Brazilian nut",
+        "groupBloodNotAllowed": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": true
+        }
+    }
+]
+            }
+          }
       },
       "AddExerciseRequest": {
         "type": "object",
@@ -920,7 +1688,9 @@
           "scheme": "bearer",
           "bearerFormat": "JWT"
         }
+
       }
     }
+    
   }
 }
