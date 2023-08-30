@@ -3,8 +3,8 @@ import { singnUpIncorrectBody, singnUpValidBody } from "../testData/signUp"
 const savedRandom = singnUpValidBody
 
 test.describe.parallel('User Sign Up API Testing', () => {
-  // const baseUrl = 'https://powerpulse-y0gd.onrender.com/api'
-  const baseUrl = 'http://localhost:3000/api'
+  const baseUrl = 'https://powerpulse-y0gd.onrender.com/api'
+  // const baseUrl = 'http://localhost:3000/api'
 
   test('User registration - Assert Invalid Endpoint', async ({ request }) => {
     const response = await request.get(`${baseUrl}/users/non-existing-endpoint`)
