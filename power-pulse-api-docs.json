@@ -35,17 +35,15 @@
       "description": "Exercises endpoints"
     },
     {
-      "name": "Diary",
+      "name": "Diaries",
       "description": "Diary endpoints"
     }
   ],
   "paths": {
     "/dashboard": {
       "get": {
-        "tags": [
-          "Dashboard"
-        ],
-        "summary": "Get general information from application",        
+        "tags": ["Dashboard"],
+        "summary": "Get general information from application",
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -56,7 +54,7 @@
                 }
               }
             }
-          },          
+          },
           "404": {
             "description": "Not found",
             "content": {}
@@ -70,9 +68,7 @@
     },
     "/users/signup": {
       "post": {
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Auth"],
         "summary": "User sign up",
         "requestBody": {
           "description": "Sign up object",
@@ -117,9 +113,7 @@
     },
     "/users/signin": {
       "post": {
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Auth"],
         "summary": "User sign in",
         "requestBody": {
           "description": "Sign in object",
@@ -164,9 +158,7 @@
     },
     "/users/current": {
       "get": {
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Auth"],
         "summary": "Get current user info",
         "security": [
           {
@@ -201,9 +193,7 @@
     },
     "/users/signout": {
       "post": {
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Auth"],
         "summary": "User sign out",
         "security": [
           {
@@ -238,9 +228,7 @@
     },
     "/users/body": {
       "post": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "summary": "Add user body data info",
         "security": [
           {
@@ -290,9 +278,7 @@
     },
     "/users/current/edit": {
       "patch": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "summary": "User update",
         "security": [
           {
@@ -357,6 +343,47 @@
           }
         }
       }
+    },
+    "/diaries/exercise/add": {
+      "post": {
+        "tags": ["Diaries"],
+        "summary": "Add exercise to diary",
+        "requestBody": {
+          "description": "Add exercise object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddExerciseRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddExerciseResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
+          }
+        }
+      }
     }
   },
   "components": {
@@ -383,11 +410,7 @@
       },
       "SignUpRequest": {
         "type": "object",
-        "required": [
-          "name",
-          "email",
-          "password"
-        ],
+        "required": ["name", "email", "password"],
         "properties": {
           "name": {
             "type": "string",
@@ -439,10 +462,7 @@
       },
       "SignInRequest": {
         "type": "object",
-        "required": [
-          "email",
-          "password"
-        ],
+        "required": ["email", "password"],
         "properties": {
           "email": {
             "type": "string",
@@ -498,14 +518,14 @@
           "name": "UserName",
           "bodyData": {
             "height": 169,
-                "currentWeight": 145,
-                "desiredWeight": 129,
-                "birthday": "1971-02-12T23:00:00.000Z",
-                "blood": 1,
-                "sex": "male",
-                "levelActivity": 3,
-                "dailyRateCalories": 799,
-                "dailySportMin": 20
+            "currentWeight": 145,
+            "desiredWeight": 129,
+            "birthday": "1971-02-12T23:00:00.000Z",
+            "blood": 1,
+            "sex": "male",
+            "levelActivity": 3,
+            "dailyRateCalories": 799,
+            "dailySportMin": 20
           },
           "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZTYxNzUyYTMzZGYxNzNhOTk1Mzc2YyIsImlhdCI6MTY5MzIxOTQ4NSwiZXhwIjoxNjkzMzAyMjg1fQ.IsTt6p3jiZxutBpEkiz7i4IgKpgVISUMH5VZksS0V50"
         }
@@ -537,7 +557,6 @@
             "type": "string",
             "description": "User avatar",
             "example": "https://res.cloudinary.com/dhgbndjlm/image/upload/v1693235748/avatars/kvn40yxqcamrcdhilafx.png"
-            
           },
           "bodyData": {
             "type": "object",
@@ -566,14 +585,14 @@
           "avatar": "https://res.cloudinary.com/dhgbndjlm/image/upload/v1693235748/avatars/kvn40yxqcamrcdhilafx.png",
           "bodyData": {
             "height": 169,
-                "currentWeight": 145,
-                "desiredWeight": 129,
-                "birthday": "1971-02-12T23:00:00.000Z",
-                "blood": 1,
-                "sex": "male",
-                "levelActivity": 3,
-                "dailyRateCalories": 799,
-                "dailySportMin": 20
+            "currentWeight": 145,
+            "desiredWeight": 129,
+            "birthday": "1971-02-12T23:00:00.000Z",
+            "blood": 1,
+            "sex": "male",
+            "levelActivity": 3,
+            "dailyRateCalories": 799,
+            "dailySportMin": 20
           }
         }
       },
@@ -612,32 +631,19 @@
           },
           "blood": {
             "type": "integer",
-            "enum": [
-              1,
-              2,
-              3,
-              4
-            ],
+            "enum": [1, 2, 3, 4],
             "description": "User's blood type",
             "example": 1
           },
           "sex": {
             "type": "string",
-            "enum": [
-              "male",
-              "female"
-            ],
+            "enum": ["male", "female"],
             "description": "User's sex",
             "example": "male"
           },
           "levelActivity": {
             "type": "integer",
-            "enum": [
-              1,
-              2,
-              3,
-              4
-            ],
+            "enum": [1, 2, 3, 4],
             "description": "User's level activity",
             "example": 3
           }
@@ -698,22 +704,20 @@
           "avatar": "https://res.cloudinary.com/dhgbndjlm/image/upload/v1693235748/avatars/kvn40yxqcamrcdhilafx.png",
           "bodyData": {
             "height": 169,
-                "currentWeight": 145,
-                "desiredWeight": 129,
-                "birthday": "1971-02-12T23:00:00.000Z",
-                "blood": 1,
-                "sex": "male",
-                "levelActivity": 3,
-                "dailyRateCalories": 799,
-                "dailySportMin": 20
+            "currentWeight": 145,
+            "desiredWeight": 129,
+            "birthday": "1971-02-12T23:00:00.000Z",
+            "blood": 1,
+            "sex": "male",
+            "levelActivity": 3,
+            "dailyRateCalories": 799,
+            "dailySportMin": 20
           }
         }
       },
       "UserUpdateRequest": {
         "type": "object",
-        "required": [
-          "name"
-        ],
+        "required": ["name"],
         "properties": {
           "name": {
             "type": "string",
@@ -805,13 +809,117 @@
         "example": {
           "message": "Sign out success"
         }
-      }
-    },
-    "securitySchemes": {
-      "Bearer": {
-        "type": "http",
-        "scheme": "bearer",
-        "bearerFormat": "JWT"
+      },
+      "AddExerciseRequest": {
+        "type": "object",
+        "required": ["date", "exercise", "time"],
+        "properties": {
+          "date": {
+            "type": "string",
+            "description": "The date of exercise",
+            "example": "22-05-2023"
+          },
+          "exercise": {
+            "type": "string",
+            "description": "ID of exercise",
+            "example": "64e5d7a0bc1733080d78435f"
+          },
+          "time": {
+            "type": "number",
+            "description": "Exercise duration in minutes",
+            "example": 5
+          }
+        }
+      },
+      "AddExerciseResponse": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "description": "The date of exercise",
+            "example": "22-05-2022"
+          },
+          "consumedCalories": {
+            "type": "string",
+            "description": "Consumed amount of calories",
+            "example": "0"
+          },
+          "burnedCalories_": {
+            "type": "string",
+            "description": "Burned amount of calories per day",
+            "example": "511"
+          },
+          "timeSport": {
+            "type": "number",
+            "description": "Total exercise time per day",
+            "example": "5"
+          },
+          "doneExercises": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "exercise": {
+                  "type": "string",
+                  "description": "ID of the exercise"
+                },
+                "time": {
+                  "type": "integer",
+                  "description": "Time spent on the exercise in minutes"
+                },
+                "burnedCalories": {
+                  "type": "integer",
+                  "description": "Calories burned during the exercise"
+                },
+                "_id": {
+                  "type": "string",
+                  "description": "Unique ID of the exercise entry"
+                }
+              }
+            }
+          },
+          "owner": {
+            "type": "string",
+            "description": "id of owner ",
+            "example": "64e9c27b813cd8c1dbe7e54b"
+          },
+          "_id": {
+            "type": "string",
+            "description": "id of daily diary note ",
+            "example": "64ef4c85f4c84603be49a15e"
+          },
+          "consumedProducts": {
+            "type": "object",
+            "description": "Consumed products per day ",
+            "example": "[]"
+          }
+        },
+        "example": {
+          "date": "22-05-2022",
+          "consumedCalories": 0,
+          "burnedCalories": 511,
+          "timeSport": 5,
+          "doneExercises": [
+            {
+              "exercise": "64e5d7a0bc1733080d78435f",
+              "time": 5,
+              "burnedCalories": 511,
+              "_id": "64ef4c85f4c84603be49a15f"
+            }
+          ],
+          "owner": "64e9c27b813cd8c1dbe7e54b",
+          "_id": "64ef4c85f4c84603be49a15e",
+          "consumedProducts": [],
+          "createdAt": "2023-08-30T14:04:53.251Z",
+          "updatedAt": "2023-08-30T14:04:53.251Z"
+        }
+      },
+      "securitySchemes": {
+        "Bearer": {
+          "type": "http",
+          "scheme": "bearer",
+          "bearerFormat": "JWT"
+        }
       }
     }
   }
