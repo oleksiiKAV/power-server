@@ -5,6 +5,7 @@ const currentUser = require('./currentUser');
 const updateUser = require('./updateUser');
 const addBodyData = require('./addBodyData');
 const logout = require('./logout');
+const deleteUser = require('./deleteUser');
 
 module.exports = {
   register: CtrlWrapper(register),
@@ -13,4 +14,5 @@ module.exports = {
   updateUser: CtrlWrapper(updateUser),
   addBodyData: CtrlWrapper(addBodyData),
   logout: CtrlWrapper(logout),
+  delete: CtrlWrapper(deleteUser),
 };

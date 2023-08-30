@@ -96,3 +96,17 @@ export const singnUpIncorrectBody = [
             expectedMessage: 'The password must consist of 6 English letters and 1 number.'
           },
   ];
+
+  const generateRandomEmail = () => {
+    const randomString = Math.random().toString(36).substring(7);
+    return `user_${randomString}@example.com`;
+  };
+  export const singnUpValidBody = 
+    {      
+      userData: {        
+        "name":generateRandomEmail(),   
+        "email": generateRandomEmail(),
+        "password": "abcdef1"
+      },
+      expectedMessage: "Such email already exists"
+    }   

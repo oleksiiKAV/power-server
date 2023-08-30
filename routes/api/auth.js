@@ -11,5 +11,6 @@ router.post('/current/edit', authenticate, upload.single('avatar'), validateBody
 
 router.post('/body', authenticate, validateBody(schemas.addBodyDataSchema), ctrl.addBodyData);
 router.post('/signout', authenticate, ctrl.logout);
+router.delete('/delete', authenticate, ctrl.delete);
 
 module.exports = router;
