@@ -15,7 +15,7 @@
     "test": "jest",
     "lint": "eslint **/*.js",
     "lint:fix": "eslint --fix **/*.js",
-    "tests:api": "playwright test --config=api.config.ts --project=Chromium --reporter=html"
+    "tests:api": "playwright test --config=playwright.config.ts --project=Chromium --reporter=html"
   },
   "dependencies": {
     "@playwright/test": "^1.36.2",
