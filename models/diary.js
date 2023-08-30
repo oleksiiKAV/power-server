@@ -6,6 +6,8 @@ const {
   errorDateMessages,
   errorProductMessages,
   errorAmountMessages,
+  errorExerciseMessages,
+  errorTimeMessages,
   dateRegexp,
 } = require("../helpers");
 const { validateDateInPast } = require("../middlewares");
@@ -99,14 +101,24 @@ const removeProductSchema = Joi.object({
 });
 
 const addExerciseSchema = Joi.object({
-  date: Joi.string().required(),
-  exerciseId: Joi.string().required(),
-  time: Joi.number().required(),
+  date: Joi.string()
+    .required()
+    .empty(false)
+    .pattern(dateRegexp)
+    .custom(validateDateInPast)
+    .messages(errorDateMessages),
+  exercise: Joi.string().required().messages(errorExerciseMessages),
+  time: Joi.number().required().messages(errorTimeMessages),
 });
 
 const removeExerciseSchema = Joi.object({
-  date: Joi.string().required(),
-  exercise: Joi.string().required(),
+  date: Joi.string()
+    .required()
+    .empty(false)
+    .pattern(dateRegexp)
+    .custom(validateDateInPast)
+    .messages(errorDateMessages),
+  exercise: Joi.string().required().messages(errorExerciseMessages),
 });
 
 const schemas = {

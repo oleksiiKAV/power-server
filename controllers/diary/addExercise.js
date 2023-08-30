@@ -4,16 +4,16 @@ const { Exercise } = require("../../models/exercise");
 const addExercise = async (req, res) => {
   const { _id: id_user } = req.user;
 
-  const { date, exerciseId, time } = req.body;
+  const { date, exercise, time } = req.body;
 
-  const exercise = await Exercise.findById(exerciseId);
+  const findExercise = await Exercise.findById(exercise);
 
-  if (!exercise) {
+  if (!findExercise) {
     return res.status(404).json({ message: "Exercise not found" });
   }
 
-  const caloriesNorm = exercise.burnedCalories;
-  const timeNorm = exercise.time;
+  const caloriesNorm = findExercise.burnedCalories;
+  const timeNorm = findExercise.time;
   const burnedCalories = parseInt((caloriesNorm / timeNorm) * time, 10);
 
   let diaryDate = await Diary.findOne({ date, owner: id_user });
@@ -24,7 +24,7 @@ const addExercise = async (req, res) => {
       timeSport: time,
       burnedCalories,
 
-      doneExercises: [{ _id: exerciseId, time, burnedCalories }],
+      doneExercises: [{ exercise, time, burnedCalories }],
       owner: id_user,
     };
 
@@ -36,7 +36,7 @@ const addExercise = async (req, res) => {
         $inc: { timeSport: time, burnedCalories: burnedCalories },
         $push: {
           doneExercises: {
-            _id: exerciseId,
+            exercise,
             time,
             burnedCalories,
           },

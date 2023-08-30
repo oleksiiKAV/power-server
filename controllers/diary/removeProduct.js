@@ -15,6 +15,9 @@ const removeProduct = async (req, res) => {
     return consumedProduct._id.toString() === productId;
   });
 
+  console.log("date>>", date);
+  console.log("productId>>", productId);
+
   if (!eatenProduct) {
     throw HttpError(401, "This product not found");
   }
