@@ -20,4 +20,6 @@ MongoDB - NoSQL database
 Mongoose - Library for working with MongoDB in Node.js
 Playwright test Framework - API testing
 Render.com - cloud to build and run apps and websites
+## API Documentation
+https://powerpulse-y0gd.onrender.com/api-docs/
 
