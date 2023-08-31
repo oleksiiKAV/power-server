@@ -36,7 +36,7 @@
     },
     {
       "name": "Diary",
-      "description": "Diary endpoints"
+      "description": "Diaries endpoints"
     }
   ],
   "paths": {
@@ -527,6 +527,172 @@
           },
           "404": {
             "description": "Not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/exercises": {
+      "get": {
+        "tags": ["Exercises"],
+        "summary": "Get all exercises",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+          "parameters": [
+        {
+          "name": "bodypart",
+          "in": "query",
+          "schema": {
+            "type": "string"
+          },
+          "description": "Filter exercises by body part"
+        },
+        {
+          "name": "muscles",
+          "in": "query",
+          "schema": {
+            "type": "string"
+          },
+          "description": "Filter exercises by target muscles"
+        },
+        {
+          "name": "equipment",
+          "in": "query",
+          "schema": {
+            "type": "string"
+          },
+          "description": "Filter exercises by equipment"
+        }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAllExercisesResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Service not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/exercises/bodyparts": {
+      "get": {
+        "tags": ["Exercises"],
+        "summary": "Get all bodyparts",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetBodyPartsResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Service not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/exercises/muscles": {
+      "get": {
+        "tags": ["Exercises"],
+        "summary": "Get all muscles",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetMusclesResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Service not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/exercises/equipments": {
+      "get": {
+        "tags": ["Exercises"],
+        "summary": "Get all equipments",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetEquipmentsResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Service not found",
             "content": {}
           },
           "500": {
@@ -1928,6 +2094,160 @@
         }
     }
 ]
+          }
+        }
+      },
+      "GetAllExercisesResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Exercise id",
+            "example": "64ef2ddb6a956ae58574f9a8"
+          },
+          "bodyPart": {
+            "type": "string",
+            "description": "Body part targeted by the exercise",
+            "example": "back"
+          },
+          "equipment": {
+            "type": "string",
+            "description": "Equipment used for the exercise",
+            "example": "barbell"
+          },
+          "gifUrl": {
+            "type": "string",
+            "description": "URL to a GIF demonstrating the exercise",
+            "example": "https://res.cloudinary.com/ditdqzoio/image/upload/v1687127066/exercises/0037.gif"
+          },
+          "name": {
+            "type": "string",
+            "description": "Exercise name",
+            "example": "barbell decline wide-grip pullover"
+          },
+          "target": {
+            "type": "string",
+            "description": "Muscle group targeted by the exercise",
+            "example": "lats"
+          },
+          "burnedCalories": {
+            "type": "number",
+            "description": "The amount of calories burned by performing the exercise",
+            "example": 307
+          },
+          "time": {
+            "type": "number",
+            "description": "Time spent on the exercise (in minutes)",
+            "example": 3
+          }
+        },
+        "example": {
+        "_id": "64e5d7a0bc1733080d78435f",
+        "bodyPart": "back",
+        "equipment": "barbell",
+        "gifUrl": "https://res.cloudinary.com/ditdqzoio/image/upload/v1687127066/exercises/0037.gif",
+        "name": "barbell decline wide-grip pullover",
+        "target": "lats",
+        "burnedCalories": 307,
+        "time": 3
+        }
+      },
+      "GetBodyPartsResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "",
+            "example": [
+              "back",
+              "cardio",
+              "chest",
+              "lower arms",
+              "lower legs",
+              "neck",
+              "shoulders",
+              "upper arms",
+              "upper legs",
+              "waist"
+            ]
+          }
+        }
+      },
+      "GetMusclesResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "",
+            "example": [
+              "abductors",
+              "abs",
+              "adductors",
+              "biceps",
+              "calves",
+              "cardiovascular system",
+              "delts",
+              "forearms",
+              "glutes",
+              "hamstrings",
+              "lats",
+              "levator scapulae",
+              "pectorals",
+              "quads",
+              "serratus anterior",
+              "spine",
+              "traps",
+              "triceps",
+              "upper back"
+            ]
+          }
+        }
+      },
+      "GetEquipmentsResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "",
+            "example": [
+              "assisted",
+              "band",
+              "barbell",
+              "body weight",
+              "bosu ball",
+              "cable",
+              "dumbbell",
+              "elliptical machine",
+              "ez barbell",
+              "hammer",
+              "kettlebell",
+              "leverage machine",
+              "medicine ball",
+              "olympic barbell",
+              "resistance band",
+              "roller",
+              "rope",
+              "skierg machine",
+              "sled machine",
+              "smith machine",
+              "stability ball",
+              "stationary bike",
+              "stepmill machine",
+              "tire",
+              "trap bar",
+              "upper body ergometer",
+              "weighted",
+              "wheel roller"
+            ]
           }
         }
       },
