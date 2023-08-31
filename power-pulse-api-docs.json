@@ -2274,8 +2274,8 @@
             }
           ]
         }
-      },
-
+      }
+    },  
       "securitySchemes": {
         "Bearer": {
           "type": "http",
@@ -2283,6 +2283,6 @@
           "bearerFormat": "JWT"
         }
       }
-    }
+    
   }
 }
