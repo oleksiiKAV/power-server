@@ -240,11 +240,11 @@ export const addIncorrectBody = [
       "desiredWeight": 102,
       "birthday": "Mon May 02 1979 00:00:00 GMT+0100 GMT+0100",
       "blood": 2,
-      "sex": "test",
+      "sex": "male",
       "levelActivity": "test"
     }
     ,
-    expectedMessage: "Invalid level activity. Allowed values are 1, 2, 3, 4 or 5"
+    expectedMessage: "Invalid level activity. Allowed values are 1, 2, 3, 4 or 5."
   },
   {
     bodyData: {
@@ -257,7 +257,7 @@ export const addIncorrectBody = [
       "levelActivity": 6
     }
     ,
-    expectedMessage: "Invalid level activity. Allowed values are 1, 2, 3, 4 or 5"
+    expectedMessage: "Invalid level activity. Allowed values are 1, 2, 3, 4 or 5."
   },
   {
     bodyData: {
@@ -270,7 +270,7 @@ export const addIncorrectBody = [
       "levelActivity": 0
     }
     ,
-    expectedMessage: "Invalid level activity. Allowed values are 1, 2, 3, 4 or 5"
+    expectedMessage: "Invalid level activity. Allowed values are 1, 2, 3, 4 or 5."
   },
   {
     bodyData: {
