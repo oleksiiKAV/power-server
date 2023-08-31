@@ -42,10 +42,8 @@
   "paths": {
     "/dashboard": {
       "get": {
-        "tags": [
-          "Dashboard"
-        ],
-        "summary": "Get general information from application",        
+        "tags": ["Dashboard"],
+        "summary": "Get general information from application",
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -56,7 +54,7 @@
                 }
               }
             }
-          },          
+          },
           "404": {
             "description": "Not found",
             "content": {}
@@ -70,9 +68,7 @@
     },
     "/users/signup": {
       "post": {
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Auth"],
         "summary": "User sign up",
         "requestBody": {
           "description": "Sign up object",
@@ -117,9 +113,7 @@
     },
     "/users/signin": {
       "post": {
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Auth"],
         "summary": "User sign in",
         "requestBody": {
           "description": "Sign in object",
@@ -164,9 +158,7 @@
     },
     "/users/current": {
       "get": {
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Auth"],
         "summary": "Get current user info",
         "security": [
           {
@@ -201,9 +193,7 @@
     },
     "/users/signout": {
       "post": {
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Auth"],
         "summary": "User sign out",
         "security": [
           {
@@ -238,9 +228,7 @@
     },
     "/users/body": {
       "post": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "summary": "Add user body data info",
         "security": [
           {
@@ -290,9 +278,7 @@
     },
     "/users/current/edit": {
       "patch": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "summary": "User update",
         "security": [
           {
@@ -357,13 +343,16 @@
           }
         }
       }
-    },    
+    },
     "/products": {
       "get": {
-        "tags": [
-          "Products"
+        "tags": ["Products"],
+        "summary": "Get information for products category",
+        "security": [
+          {
+            "Bearer": []
+          }
         ],
-        "summary": "Get information for products category",        
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -374,7 +363,7 @@
                 }
               }
             }
-          },          
+          },
           "404": {
             "description": "Not found",
             "content": {}
@@ -388,10 +377,13 @@
     },
     "/products/admissible": {
       "get": {
-        "tags": [
-          "Products"
+        "tags": ["Products"],
+        "summary": "Get information for products list",
+        "security": [
+          {
+            "Bearer": []
+          }
         ],
-        "summary": "Get information for products list",        
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -402,7 +394,7 @@
                 }
               }
             }
-          },          
+          },
           "404": {
             "description": "Not found",
             "content": {}
@@ -414,12 +406,15 @@
         }
       }
     },
-     "/products/admissible/?filter=false": {
+    "/products/admissible/?filter=false": {
       "get": {
-        "tags": [
-          "Products"
+        "tags": ["Products"],
+        "summary": "Get information about the list of products filtered with the permission of the blood group",
+        "security": [
+          {
+            "Bearer": []
+          }
         ],
-        "summary": "Get information about the list of products filtered with the permission of the blood group",        
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -430,7 +425,7 @@
                 }
               }
             }
-          },          
+          },
           "404": {
             "description": "Not found",
             "content": {}
@@ -442,12 +437,26 @@
         }
       }
     },
-    "/products/admissible/?category=*": {
+    "/products/admissible/?category={category}": {
       "get": {
-        "tags": [
-          "Products"
+        "tags": ["Products"],
+        "summary": "Get information about the list of products filtered by category group",
+        "security": [
+          {
+            "Bearer": []
+          }
         ],
-        "summary": "Get information about the list of products filtered by category group",        
+        "parameters": [
+          {
+            "in": "path",
+            "name": "category",
+            "description": "Category of the product",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -458,7 +467,7 @@
                 }
               }
             }
-          },          
+          },
           "404": {
             "description": "Not found",
             "content": {}
@@ -470,19 +479,201 @@
         }
       }
     },
-    "/products/admissible/?page=1&limit=5": {
+
+    "/products/admissible/?page={page}&limit={limit}": {
+
       "get": {
-        "tags": [
-          "Products"
+        "tags": ["Products"],
+        "summary": "Get information about pagination of products list",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],  
+        "parameters": [
+          {
+            "in": "path",
+            "name": "page",
+            "description": "Page of the product",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "path",
+            "name": "limit",
+            "description": "Limit of the product",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
         ],
-        "summary": "Get information about pagination of products list",        
         "responses": {
           "200": {
-            "description": "Successful operation"
-           
-          },          
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginationResponse"
+                }
+              }
+            }
+          },
+            "401": {
+            "description": "Unauthorized",
+            "content": {}
+          },
           "404": {
             "description": "Not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
+          }
+        }
+      }
+    },
+    "diaries/product/add": {
+      "post": {
+        "tags": ["Diary"],
+        "summary": "Add eaten product to diary",
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Post eaten product object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddEatenProductRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddEatenProductResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Service not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/diaries/product/{id}": {
+      "delete": {
+        "tags": ["Diary"],
+        "summary": "Remove eaten product from diary",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "ID of the eaten product to be removed",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoveEatenProductResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          },
+          "401": {
+            "description": "Info about this date not found",
+            "content": {}
+          },
+          "404": {
+            "description": "Service not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
+          }
+        }
+      }
+    },
+
+    "/diaries/daily/{date}": {
+      "get": {
+        "tags": ["Diary"],
+        "summary": "Get diary data for a day",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "date",
+            "description": "The date (in DD-MM-YYYY format) for retrieving diary information",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetDailyDataResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Date invalid",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Service not found",
             "content": {}
           },
           "500": {
@@ -517,11 +708,7 @@
       },
       "SignUpRequest": {
         "type": "object",
-        "required": [
-          "name",
-          "email",
-          "password"
-        ],
+        "required": ["name", "email", "password"],
         "properties": {
           "name": {
             "type": "string",
@@ -573,10 +760,7 @@
       },
       "SignInRequest": {
         "type": "object",
-        "required": [
-          "email",
-          "password"
-        ],
+        "required": ["email", "password"],
         "properties": {
           "email": {
             "type": "string",
@@ -632,14 +816,14 @@
           "name": "UserName",
           "bodyData": {
             "height": 169,
-                "currentWeight": 145,
-                "desiredWeight": 129,
-                "birthday": "1971-02-12T23:00:00.000Z",
-                "blood": 1,
-                "sex": "male",
-                "levelActivity": 3,
-                "dailyRateCalories": 799,
-                "dailySportMin": 20
+            "currentWeight": 145,
+            "desiredWeight": 129,
+            "birthday": "1971-02-12T23:00:00.000Z",
+            "blood": 1,
+            "sex": "male",
+            "levelActivity": 3,
+            "dailyRateCalories": 799,
+            "dailySportMin": 20
           },
           "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZTYxNzUyYTMzZGYxNzNhOTk1Mzc2YyIsImlhdCI6MTY5MzIxOTQ4NSwiZXhwIjoxNjkzMzAyMjg1fQ.IsTt6p3jiZxutBpEkiz7i4IgKpgVISUMH5VZksS0V50"
         }
@@ -671,7 +855,6 @@
             "type": "string",
             "description": "User avatar",
             "example": "https://res.cloudinary.com/dhgbndjlm/image/upload/v1693235748/avatars/kvn40yxqcamrcdhilafx.png"
-            
           },
           "bodyData": {
             "type": "object",
@@ -700,14 +883,14 @@
           "avatar": "https://res.cloudinary.com/dhgbndjlm/image/upload/v1693235748/avatars/kvn40yxqcamrcdhilafx.png",
           "bodyData": {
             "height": 169,
-                "currentWeight": 145,
-                "desiredWeight": 129,
-                "birthday": "1971-02-12T23:00:00.000Z",
-                "blood": 1,
-                "sex": "male",
-                "levelActivity": 3,
-                "dailyRateCalories": 799,
-                "dailySportMin": 20
+            "currentWeight": 145,
+            "desiredWeight": 129,
+            "birthday": "1971-02-12T23:00:00.000Z",
+            "blood": 1,
+            "sex": "male",
+            "levelActivity": 3,
+            "dailyRateCalories": 799,
+            "dailySportMin": 20
           }
         }
       },
@@ -746,32 +929,19 @@
           },
           "blood": {
             "type": "integer",
-            "enum": [
-              1,
-              2,
-              3,
-              4
-            ],
+            "enum": [1, 2, 3, 4],
             "description": "User's blood type",
             "example": 1
           },
           "sex": {
             "type": "string",
-            "enum": [
-              "male",
-              "female"
-            ],
+            "enum": ["male", "female"],
             "description": "User's sex",
             "example": "male"
           },
           "levelActivity": {
             "type": "integer",
-            "enum": [
-              1,
-              2,
-              3,
-              4
-            ],
+            "enum": [1, 2, 3, 4],
             "description": "User's level activity",
             "example": 3
           }
@@ -832,22 +1002,20 @@
           "avatar": "https://res.cloudinary.com/dhgbndjlm/image/upload/v1693235748/avatars/kvn40yxqcamrcdhilafx.png",
           "bodyData": {
             "height": 169,
-                "currentWeight": 145,
-                "desiredWeight": 129,
-                "birthday": "1971-02-12T23:00:00.000Z",
-                "blood": 1,
-                "sex": "male",
-                "levelActivity": 3,
-                "dailyRateCalories": 799,
-                "dailySportMin": 20
+            "currentWeight": 145,
+            "desiredWeight": 129,
+            "birthday": "1971-02-12T23:00:00.000Z",
+            "blood": 1,
+            "sex": "male",
+            "levelActivity": 3,
+            "dailyRateCalories": 799,
+            "dailySportMin": 20
           }
         }
       },
       "UserUpdateRequest": {
         "type": "object",
-        "required": [
-          "name"
-        ],
+        "required": ["name"],
         "properties": {
           "name": {
             "type": "string",
@@ -926,8 +1094,8 @@
             "dailySportMin": 110
           }
         }
-      },      
-      
+      },
+
       "SignOutResponse": {
         "type": "object",
         "properties": {
@@ -936,46 +1104,663 @@
             "description": "Sign out success",
             "example": "Sign out success"
           }
-        }       
+        }
       },
       "ProductsCategoryResponse": {
-          "type": "object",
-          "properties": {
-            "message": {
-              "type": "array",
-              "description": "",
-              "example": [
-    "alcoholic drinks",
-    "berries",
-    "cereals",
-    "dairy",
-    "dried fruits",
-    "eggs",
-    "fish",
-    "flour",
-    "fruits",
-    "meat",
-    "mushrooms",
-    "nuts",
-    "oils and fats",
-    "poppy",
-    "sausage",
-    "seeds",
-    "sesame",
-    "soft drinks",
-    "vegetables and herbs"
-]
-            }
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "array",
+            "description": "",
+            "example": [
+              "alcoholic drinks",
+              "berries",
+              "cereals",
+              "dairy",
+              "dried fruits",
+              "eggs",
+              "fish",
+              "flour",
+              "fruits",
+              "meat",
+              "mushrooms",
+              "nuts",
+              "oils and fats",
+              "poppy",
+              "sausage",
+              "seeds",
+              "sesame",
+              "soft drinks",
+              "vegetables and herbs"
+            ]
           }
-          
-        },
-        "ProductsListResponse": {
-          "type": "object",
-          "properties": {
-            "message": {
-              "type": "object",
-              "description": "Sign out success",
-              "example": [
+        }
+      },
+      "ProductsListResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "object",
+            "description": "Sign out success",
+            "example": [
+              {
+                "_id": "5d51694902b2373622ff5ccf",
+                "weight": 100,
+                "calories": 110,
+                "category": "dried fruits",
+                "title": "Dried rosehip",
+                "groupBloodNotAllowed": {
+                  "1": false,
+                  "2": false,
+                  "3": false,
+                  "4": false
+                }
+              },
+              {
+                "_id": "5d51694902b2373622ff5c95",
+                "weight": 100,
+                "calories": 213,
+                "category": "nuts",
+                "title": "Canned chestnut",
+                "groupBloodNotAllowed": {
+                  "1": false,
+                  "2": false,
+                  "3": false,
+                  "4": true
+                }
+              },
+              {
+                "_id": "5d51694902b2373622ff5cb8",
+                "weight": 100,
+                "calories": 305,
+                "category": "seeds",
+                "title": "Dill seeds",
+                "groupBloodNotAllowed": {
+                  "1": false,
+                  "2": false,
+                  "3": false,
+                  "4": false
+                }
+              },
+              {
+                "_id": "5d51694902b2373622ff5e03",
+                "weight": 100,
+                "calories": 91,
+                "category": "vegetables and herbs",
+                "title": "Cocktail salad Bonduelle Hawaiian marinated",
+                "groupBloodNotAllowed": {
+                  "1": false,
+                  "2": false,
+                  "3": false,
+                  "4": false
+                }
+              },
+              {
+                "_id": "5d51694902b2373622ff5ef6",
+                "weight": 100,
+                "calories": 100,
+                "category": "soft drinks",
+                "title": "Coffee Maxwell House instant dry",
+                "groupBloodNotAllowed": {
+                  "1": false,
+                  "2": false,
+                  "3": false,
+                  "4": false
+                }
+              },
+              {
+                "_id": "5d51694902b2373622ff5bf2",
+                "weight": 100,
+                "calories": 50,
+                "category": "fruits",
+                "title": "Feronia (Wooden Apple)",
+                "groupBloodNotAllowed": {
+                  "1": false,
+                  "2": false,
+                  "3": false,
+                  "4": false
+                }
+              },
+              {
+                "_id": "5d51694902b2373622ff57bd",
+                "weight": 100,
+                "calories": 327,
+                "category": "dairy",
+                "title": "Reblochon cheese",
+                "groupBloodNotAllowed": {
+                  "1": true,
+                  "2": true,
+                  "3": false,
+                  "4": false
+                }
+              },
+              {
+                "_id": "5d51694902b2373622ff599e",
+                "weight": 100,
+                "calories": 240,
+                "category": "meat",
+                "title": "Chopped lamb cutlets",
+                "groupBloodNotAllowed": {
+                  "1": false,
+                  "2": true,
+                  "3": false,
+                  "4": true
+                }
+              },
+              {
+                "_id": "5d51694902b2373622ff5a46",
+                "weight": 100,
+                "calories": 31,
+                "category": "berries",
+                "title": "Blackberry 4 seasons",
+                "groupBloodNotAllowed": {
+                  "1": false,
+                  "2": false,
+                  "3": false,
+                  "4": false
+                }
+              },
+              {
+                "_id": "5d51694802b2373622ff55a5",
+                "weight": 100,
+                "calories": 364,
+                "category": "cereals",
+                "title": "Oatmeal Myllyn Paras Tropic Sugar",
+                "groupBloodNotAllowed": {
+                  "1": true,
+                  "2": false,
+                  "3": false,
+                  "4": false
+                }
+              },
+              {
+                "_id": "5d51694802b2373622ff55ab",
+                "weight": 100,
+                "calories": 88,
+                "category": "cereals",
+                "title": "Oatmeal on the water",
+                "groupBloodNotAllowed": {
+                  "1": true,
+                  "2": false,
+                  "3": false,
+                  "4": false
+                }
+              },
+              {
+                "_id": "5d51694902b2373622ff5779",
+                "weight": 100,
+                "calories": 265,
+                "category": "dairy",
+                "title": "Cheese Dor Blue a la creme",
+                "groupBloodNotAllowed": {
+                  "1": true,
+                  "2": true,
+                  "3": false,
+                  "4": false
+                }
+              },
+              {
+                "_id": "5d51694902b2373622ff5b81",
+                "weight": 100,
+                "calories": 180,
+                "category": "fish",
+                "title": "Butter fish smoked",
+                "groupBloodNotAllowed": {
+                  "1": false,
+                  "2": false,
+                  "3": false,
+                  "4": false
+                }
+              },
+              {
+                "_id": "5d51694902b2373622ff5920",
+                "weight": 100,
+                "calories": 142,
+                "category": "meat",
+                "title": "Pork beef stroganoff",
+                "groupBloodNotAllowed": {
+                  "1": false,
+                  "2": true,
+                  "3": false,
+                  "4": true
+                }
+              },
+              {
+                "_id": "5d51694902b2373622ff5953",
+                "weight": 100,
+                "calories": 86,
+                "category": "meat",
+                "title": "beef kidneys",
+                "groupBloodNotAllowed": {
+                  "1": false,
+                  "2": false,
+                  "3": false,
+                  "4": false
+                }
+              },
+              {
+                "_id": "5d51694902b2373622ff5b14",
+                "weight": 100,
+                "calories": 87,
+                "category": "fish",
+                "title": "Pike caviar",
+                "groupBloodNotAllowed": {
+                  "1": false,
+                  "2": false,
+                  "3": false,
+                  "4": false
+                }
+              },
+              {
+                "_id": "5d51694902b2373622ff5b58",
+                "weight": 100,
+                "calories": 125,
+                "category": "fish",
+                "title": "red-eyed",
+                "groupBloodNotAllowed": {
+                  "1": false,
+                  "2": false,
+                  "3": false,
+                  "4": false
+                }
+              },
+              {
+                "_id": "5d51694902b2373622ff5e5b",
+                "weight": 100,
+                "calories": 24,
+                "category": "vegetables and herbs",
+                "title": "Green beans",
+                "groupBloodNotAllowed": {
+                  "1": false,
+                  "2": false,
+                  "3": false,
+                  "4": true
+                }
+              },
+              {
+                "_id": "5d51694802b2373622ff55bf",
+                "weight": 100,
+                "calories": 350,
+                "category": "cereals",
+                "title": "Oat flakes Myllyn Paras",
+                "groupBloodNotAllowed": {
+                  "1": true,
+                  "2": false,
+                  "3": false,
+                  "4": false
+                }
+              },
+              {
+                "_id": "5d51694902b2373622ff5b2b",
+                "weight": 100,
+                "calories": 138,
+                "category": "fish",
+                "title": "Canned carp",
+                "groupBloodNotAllowed": {
+                  "1": false,
+                  "2": false,
+                  "3": false,
+                  "4": false
+                }
+              }
+            ]
+          }
+        }
+      },
+      "ProductsListFilteredBloodResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "object",
+            "description": "Sign out success",
+            "example": [
+              {
+                "_id": "5d51694902b2373622ff5ccf",
+                "weight": 100,
+                "calories": 110,
+                "category": "dried fruits",
+                "title": "Dried rosehip",
+                "groupBloodNotAllowed": {
+                  "1": false,
+                  "2": false,
+                  "3": false,
+                  "4": false
+                }
+              },
+              {
+                "_id": "5d51694902b2373622ff5c95",
+                "weight": 100,
+                "calories": 213,
+                "category": "nuts",
+                "title": "Canned chestnut",
+                "groupBloodNotAllowed": {
+                  "1": false,
+                  "2": false,
+                  "3": false,
+                  "4": true
+                }
+              },
+              {
+                "_id": "5d51694902b2373622ff5cb8",
+                "weight": 100,
+                "calories": 305,
+                "category": "seeds",
+                "title": "Dill seeds",
+                "groupBloodNotAllowed": {
+                  "1": false,
+                  "2": false,
+                  "3": false,
+                  "4": false
+                }
+              },
+              {
+                "_id": "5d51694902b2373622ff5e03",
+                "weight": 100,
+                "calories": 91,
+                "category": "vegetables and herbs",
+                "title": "Cocktail salad Bonduelle Hawaiian marinated",
+                "groupBloodNotAllowed": {
+                  "1": false,
+                  "2": false,
+                  "3": false,
+                  "4": false
+                }
+              },
+              {
+                "_id": "5d51694902b2373622ff5ef6",
+                "weight": 100,
+                "calories": 100,
+                "category": "soft drinks",
+                "title": "Coffee Maxwell House instant dry",
+                "groupBloodNotAllowed": {
+                  "1": false,
+                  "2": false,
+                  "3": false,
+                  "4": false
+                }
+              },
+              {
+                "_id": "5d51694902b2373622ff5bf2",
+                "weight": 100,
+                "calories": 50,
+                "category": "fruits",
+                "title": "Feronia (Wooden Apple)",
+                "groupBloodNotAllowed": {
+                  "1": false,
+                  "2": false,
+                  "3": false,
+                  "4": false
+                }
+              },
+              {
+                "_id": "5d51694902b2373622ff5a46",
+                "weight": 100,
+                "calories": 31,
+                "category": "berries",
+                "title": "Blackberry 4 seasons",
+                "groupBloodNotAllowed": {
+                  "1": false,
+                  "2": false,
+                  "3": false,
+                  "4": false
+                }
+              },
+              {
+                "_id": "5d51694802b2373622ff55a5",
+                "weight": 100,
+                "calories": 364,
+                "category": "cereals",
+                "title": "Oatmeal Myllyn Paras Tropic Sugar",
+                "groupBloodNotAllowed": {
+                  "1": true,
+                  "2": false,
+                  "3": false,
+                  "4": false
+                }
+              },
+              {
+                "_id": "5d51694802b2373622ff55ab",
+                "weight": 100,
+                "calories": 88,
+                "category": "cereals",
+                "title": "Oatmeal on the water",
+                "groupBloodNotAllowed": {
+                  "1": true,
+                  "2": false,
+                  "3": false,
+                  "4": false
+                }
+              },
+              {
+                "_id": "5d51694902b2373622ff5b81",
+                "weight": 100,
+                "calories": 180,
+                "category": "fish",
+                "title": "Butter fish smoked",
+                "groupBloodNotAllowed": {
+                  "1": false,
+                  "2": false,
+                  "3": false,
+                  "4": false
+                }
+              },
+              {
+                "_id": "5d51694902b2373622ff5953",
+                "weight": 100,
+                "calories": 86,
+                "category": "meat",
+                "title": "beef kidneys",
+                "groupBloodNotAllowed": {
+                  "1": false,
+                  "2": false,
+                  "3": false,
+                  "4": false
+                }
+              },
+              {
+                "_id": "5d51694902b2373622ff5b14",
+                "weight": 100,
+                "calories": 87,
+                "category": "fish",
+                "title": "Pike caviar",
+                "groupBloodNotAllowed": {
+                  "1": false,
+                  "2": false,
+                  "3": false,
+                  "4": false
+                }
+              },
+              {
+                "_id": "5d51694902b2373622ff5b58",
+                "weight": 100,
+                "calories": 125,
+                "category": "fish",
+                "title": "red-eyed",
+                "groupBloodNotAllowed": {
+                  "1": false,
+                  "2": false,
+                  "3": false,
+                  "4": false
+                }
+              },
+              {
+                "_id": "5d51694902b2373622ff5e5b",
+                "weight": 100,
+                "calories": 24,
+                "category": "vegetables and herbs",
+                "title": "Green beans",
+                "groupBloodNotAllowed": {
+                  "1": false,
+                  "2": false,
+                  "3": false,
+                  "4": true
+                }
+              },
+              {
+                "_id": "5d51694802b2373622ff55bf",
+                "weight": 100,
+                "calories": 350,
+                "category": "cereals",
+                "title": "Oat flakes Myllyn Paras",
+                "groupBloodNotAllowed": {
+                  "1": true,
+                  "2": false,
+                  "3": false,
+                  "4": false
+                }
+              },
+              {
+                "_id": "5d51694902b2373622ff5b2b",
+                "weight": 100,
+                "calories": 138,
+                "category": "fish",
+                "title": "Canned carp",
+                "groupBloodNotAllowed": {
+                  "1": false,
+                  "2": false,
+                  "3": false,
+                  "4": false
+                }
+              },
+              {
+                "_id": "5d51694902b2373622ff5b9d",
+                "weight": 100,
+                "calories": 67,
+                "category": "fruits",
+                "title": "Apricot canned",
+                "groupBloodNotAllowed": {
+                  "1": false,
+                  "2": false,
+                  "3": false,
+                  "4": false
+                }
+              },
+              {
+                "_id": "5d51694902b2373622ff5d12",
+                "weight": 100,
+                "calories": 31,
+                "category": "vegetables and herbs",
+                "title": "Broccoli 4 seasons",
+                "groupBloodNotAllowed": {
+                  "1": false,
+                  "2": false,
+                  "3": false,
+                  "4": false
+                }
+              },
+              {
+                "_id": "5d51694902b2373622ff5bea",
+                "weight": 100,
+                "calories": 25,
+                "category": "fruits",
+                "title": "Syzygium",
+                "groupBloodNotAllowed": {
+                  "1": false,
+                  "2": false,
+                  "3": false,
+                  "4": false
+                }
+              },
+              {
+                "_id": "5d51694902b2373622ff5a9a",
+                "weight": 100,
+                "calories": 274,
+                "category": "sausage",
+                "title": "Krovyanka",
+                "groupBloodNotAllowed": {
+                  "1": false,
+                  "2": false,
+                  "3": false,
+                  "4": false
+                }
+              }
+            ]
+          }
+        }
+      },
+      "ProductsListFilteredCategoryResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "object",
+            "description": "Sign out success",
+            "example": [
+              {
+                "_id": "5d51694902b2373622ff5c95",
+                "weight": 100,
+                "calories": 213,
+                "category": "nuts",
+                "title": "Canned chestnut",
+                "groupBloodNotAllowed": {
+                  "1": false,
+                  "2": false,
+                  "3": false,
+                  "4": true
+                }
+              },
+              {
+                "_id": "5d51694902b2373622ff5cad",
+                "weight": 100,
+                "calories": 354,
+                "category": "nuts",
+                "title": "Seychelles Walnut Coco de Mer",
+                "groupBloodNotAllowed": {
+                  "1": false,
+                  "2": false,
+                  "3": false,
+                  "4": true
+                }
+              },
+              {
+                "_id": "5d51694902b2373622ff5c97",
+                "weight": 100,
+                "calories": 680,
+                "category": "nuts",
+                "title": "Pine nuts",
+                "groupBloodNotAllowed": {
+                  "1": false,
+                  "2": false,
+                  "3": false,
+                  "4": true
+                }
+              },
+              {
+                "_id": "5d51694902b2373622ff5c9c",
+                "weight": 100,
+                "calories": 354,
+                "category": "nuts",
+                "title": "Coconut",
+                "groupBloodNotAllowed": {
+                  "1": false,
+                  "2": false,
+                  "3": false,
+                  "4": true
+                }
+              },
+              {
+                "_id": "5d51694902b2373622ff5c86",
+                "weight": 100,
+                "calories": 656,
+                "category": "nuts",
+                "title": "Brazilian nut",
+                "groupBloodNotAllowed": {
+                  "1": false,
+                  "2": false,
+                  "3": false,
+                  "4": true
+                }
+              }
+            ]
+          }
+        }
+      },
+      "PaginationResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "object",
+            "description": "Sign out success",
+            "example": [
     {
         "_id": "5d51694902b2373622ff5ccf",
         "weight": 100,
@@ -1040,562 +1825,609 @@
             "3": false,
             "4": false
         }
-    },
-    {
-        "_id": "5d51694902b2373622ff5bf2",
-        "weight": 100,
-        "calories": 50,
-        "category": "fruits",
-        "title": "Feronia (Wooden Apple)",
-        "groupBloodNotAllowed": {
-            "1": false,
-            "2": false,
-            "3": false,
-            "4": false
-        }
-    },
-    {
-        "_id": "5d51694902b2373622ff57bd",
-        "weight": 100,
-        "calories": 327,
-        "category": "dairy",
-        "title": "Reblochon cheese",
-        "groupBloodNotAllowed": {
-            "1": true,
-            "2": true,
-            "3": false,
-            "4": false
-        }
-    },
-    {
-        "_id": "5d51694902b2373622ff599e",
-        "weight": 100,
-        "calories": 240,
-        "category": "meat",
-        "title": "Chopped lamb cutlets",
-        "groupBloodNotAllowed": {
-            "1": false,
-            "2": true,
-            "3": false,
-            "4": true
-        }
-    },
-    {
-        "_id": "5d51694902b2373622ff5a46",
-        "weight": 100,
-        "calories": 31,
-        "category": "berries",
-        "title": "Blackberry 4 seasons",
-        "groupBloodNotAllowed": {
-            "1": false,
-            "2": false,
-            "3": false,
-            "4": false
-        }
-    },
-    {
-        "_id": "5d51694802b2373622ff55a5",
-        "weight": 100,
-        "calories": 364,
-        "category": "cereals",
-        "title": "Oatmeal Myllyn Paras Tropic Sugar",
-        "groupBloodNotAllowed": {
-            "1": true,
-            "2": false,
-            "3": false,
-            "4": false
-        }
-    },
-    {
-        "_id": "5d51694802b2373622ff55ab",
-        "weight": 100,
-        "calories": 88,
-        "category": "cereals",
-        "title": "Oatmeal on the water",
-        "groupBloodNotAllowed": {
-            "1": true,
-            "2": false,
-            "3": false,
-            "4": false
-        }
-    },
-    {
-        "_id": "5d51694902b2373622ff5779",
-        "weight": 100,
-        "calories": 265,
-        "category": "dairy",
-        "title": "Cheese Dor Blue a la creme",
-        "groupBloodNotAllowed": {
-            "1": true,
-            "2": true,
-            "3": false,
-            "4": false
-        }
-    },
-    {
-        "_id": "5d51694902b2373622ff5b81",
-        "weight": 100,
-        "calories": 180,
-        "category": "fish",
-        "title": "Butter fish smoked",
-        "groupBloodNotAllowed": {
-            "1": false,
-            "2": false,
-            "3": false,
-            "4": false
-        }
-    },
-    {
-        "_id": "5d51694902b2373622ff5920",
-        "weight": 100,
-        "calories": 142,
-        "category": "meat",
-        "title": "Pork beef stroganoff",
-        "groupBloodNotAllowed": {
-            "1": false,
-            "2": true,
-            "3": false,
-            "4": true
-        }
-    },
-    {
-        "_id": "5d51694902b2373622ff5953",
-        "weight": 100,
-        "calories": 86,
-        "category": "meat",
-        "title": "beef kidneys",
-        "groupBloodNotAllowed": {
-            "1": false,
-            "2": false,
-            "3": false,
-            "4": false
-        }
-    },
-    {
-        "_id": "5d51694902b2373622ff5b14",
-        "weight": 100,
-        "calories": 87,
-        "category": "fish",
-        "title": "Pike caviar",
-        "groupBloodNotAllowed": {
-            "1": false,
-            "2": false,
-            "3": false,
-            "4": false
-        }
-    },
-    {
-        "_id": "5d51694902b2373622ff5b58",
-        "weight": 100,
-        "calories": 125,
-        "category": "fish",
-        "title": "red-eyed",
-        "groupBloodNotAllowed": {
-            "1": false,
-            "2": false,
-            "3": false,
-            "4": false
-        }
-    },
-    {
-        "_id": "5d51694902b2373622ff5e5b",
-        "weight": 100,
-        "calories": 24,
-        "category": "vegetables and herbs",
-        "title": "Green beans",
-        "groupBloodNotAllowed": {
-            "1": false,
-            "2": false,
-            "3": false,
-            "4": true
-        }
-    },
-    {
-        "_id": "5d51694802b2373622ff55bf",
-        "weight": 100,
-        "calories": 350,
-        "category": "cereals",
-        "title": "Oat flakes Myllyn Paras",
-        "groupBloodNotAllowed": {
-            "1": true,
-            "2": false,
-            "3": false,
-            "4": false
-        }
-    },
-    {
-        "_id": "5d51694902b2373622ff5b2b",
-        "weight": 100,
-        "calories": 138,
-        "category": "fish",
-        "title": "Canned carp",
-        "groupBloodNotAllowed": {
-            "1": false,
-            "2": false,
-            "3": false,
-            "4": false
-        }
     }
 ]
-            }
           }
-          
-        },
-        "ProductsListFilteredBloodResponse":{
-          "type": "object",
-          "properties": {
-            "message": {
+        }
+      },
+      "AddEatenProductRequest": {
+        "type": "object",
+        "required": ["date", "product", "amount"],
+        "properties": {
+          "date": {
+            "type": "string",
+            "description": "The date when product was eaten",
+            "example": "23-08-2023"
+          },
+          "product": {
+            "type": "string",
+            "description": "Product id",
+            "example": "64e5d7a0bc1733080d784346"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Eaten product amount",
+            "example": 100
+          }
+        }
+      },
+      "AddEatenProductResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Day id",
+            "example": "64eeef2b2c4366fde9e0a7b5"
+          },
+          "date": {
+            "type": "string",
+            "description": "The date when product was eaten",
+            "example": "23-08-2023"
+          },
+          "owner": {
+            "type": "string",
+            "description": "User id",
+            "example": "64e8f5bd213e460301487d0a"
+          },
+          "consumedCalories": {
+            "type": "number",
+            "description": "Amount of consumed calories",
+            "example": "1200"
+          },
+          "consumedProducts": {
+            "type": "array",
+            "items": {
               "type": "object",
-              "description": "Sign out success",
-              "example": [
-    {
-        "_id": "5d51694902b2373622ff5ccf",
-        "weight": 100,
-        "calories": 110,
-        "category": "dried fruits",
-        "title": "Dried rosehip",
-        "groupBloodNotAllowed": {
-            "1": false,
-            "2": false,
-            "3": false,
-            "4": false
+              "properties": {
+                "product": {
+                  "type": "string",
+                  "description": "Product id",
+                  "example": "64e5d7a0bc1733080d784346"
+                },
+                "amount": {
+                  "type": "number",
+                  "description": "Eaten product amount",
+                  "example": 100
+                },
+                "calories": {
+                  "type": "number",
+                  "description": "Consumed calories",
+                  "example": 175
+                },
+                "_id": {
+                  "type": "string",
+                  "description": "Eaten product id",
+                  "example": "64ef2ddb6a956ae58574f9a9"
+                }
+              }
+            }
+          },
+          "burnedCalories": {
+            "type": "number",
+            "description": "Amount of burned calories",
+            "example": 300
+          },
+          "timeSport": {
+            "type": "number",
+            "description": "Time spent on sport",
+            "example": 30
+          },
+          "doneExercises": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "exercise": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "description": "Exercise id",
+                      "example": "64e5d7a0bc1733080d784346"
+                    },
+                    "time": {
+                      "type": "number",
+                      "description": "Time spent on exercise",
+                      "example": 10
+                    },
+                    "burnedCalories": {
+                      "type": "number",
+                      "description": "Amount of burned calories",
+                      "example": 571
+                    }
+                  },
+                  "description": "Exercise information"
+                },
+                "_id": {
+                  "type": "string",
+                  "description": "Done exercise id",
+                  "example": "64ef32627f0f51dd266a378e"
+                }
+              }
+            },
+            "description": "Array of exercises completed by the user"
+          },
+
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the exercise entry was created in the diary",
+            "example": "2023-08-30T11:54:03.339Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the exercise entry was last updated in the diary",
+            "example": "2023-08-30T12:13:22.912Z"
+          }
+        },
+        "example": {
+          "_id": "64ef2ddb6a956ae58574f9a8",
+          "date": "20-08-2023",
+          "owner": "64e8f5bd213e460301487d0a",
+          "consumedCalories": 175,
+          "consumedProducts": [
+            {
+              "product": "5d51694902b2373622ff5bf2",
+              "amount": 350,
+              "calories": 175,
+              "_id": "64ef2ddb6a956ae58574f9a9"
+            }
+          ],
+          "burnedCalories": 571,
+          "timeSport": 35,
+          "doneExercises": [
+            {
+              "exercise": "64e5d7a0bc1733080d784346",
+              "time": 35,
+              "burnedCalories": 571,
+              "_id": "64ef32627f0f51dd266a378e"
+            }
+          ],
+          "createdAt": "2023-08-30T11:54:03.339Z",
+          "updatedAt": "2023-08-30T12:13:22.912Z"
         }
-    },
-    {
-        "_id": "5d51694902b2373622ff5c95",
-        "weight": 100,
-        "calories": 213,
-        "category": "nuts",
-        "title": "Canned chestnut",
-        "groupBloodNotAllowed": {
-            "1": false,
-            "2": false,
-            "3": false,
-            "4": true
+      },
+      "RemoveEatenProductRequest": {
+        "type": "object",
+        "required": ["date", "productId"],
+        "properties": {
+          "date": {
+            "type": "string",
+            "description": "Date when product was eaten",
+            "example": "21-08-2023"
+          },
+          "productId": {
+            "type": "string",
+            "description": "Eaten product id",
+            "example": "64eef15f664656ed266f4505"
+          }
         }
-    },
-    {
-        "_id": "5d51694902b2373622ff5cb8",
-        "weight": 100,
-        "calories": 305,
-        "category": "seeds",
-        "title": "Dill seeds",
-        "groupBloodNotAllowed": {
-            "1": false,
-            "2": false,
-            "3": false,
-            "4": false
-        }
-    },
-    {
-        "_id": "5d51694902b2373622ff5e03",
-        "weight": 100,
-        "calories": 91,
-        "category": "vegetables and herbs",
-        "title": "Cocktail salad Bonduelle Hawaiian marinated",
-        "groupBloodNotAllowed": {
-            "1": false,
-            "2": false,
-            "3": false,
-            "4": false
-        }
-    },
-    {
-        "_id": "5d51694902b2373622ff5ef6",
-        "weight": 100,
-        "calories": 100,
-        "category": "soft drinks",
-        "title": "Coffee Maxwell House instant dry",
-        "groupBloodNotAllowed": {
-            "1": false,
-            "2": false,
-            "3": false,
-            "4": false
-        }
-    },
-    {
-        "_id": "5d51694902b2373622ff5bf2",
-        "weight": 100,
-        "calories": 50,
-        "category": "fruits",
-        "title": "Feronia (Wooden Apple)",
-        "groupBloodNotAllowed": {
-            "1": false,
-            "2": false,
-            "3": false,
-            "4": false
-        }
-    },
-    {
-        "_id": "5d51694902b2373622ff5a46",
-        "weight": 100,
-        "calories": 31,
-        "category": "berries",
-        "title": "Blackberry 4 seasons",
-        "groupBloodNotAllowed": {
-            "1": false,
-            "2": false,
-            "3": false,
-            "4": false
-        }
-    },
-    {
-        "_id": "5d51694802b2373622ff55a5",
-        "weight": 100,
-        "calories": 364,
-        "category": "cereals",
-        "title": "Oatmeal Myllyn Paras Tropic Sugar",
-        "groupBloodNotAllowed": {
-            "1": true,
-            "2": false,
-            "3": false,
-            "4": false
-        }
-    },
-    {
-        "_id": "5d51694802b2373622ff55ab",
-        "weight": 100,
-        "calories": 88,
-        "category": "cereals",
-        "title": "Oatmeal on the water",
-        "groupBloodNotAllowed": {
-            "1": true,
-            "2": false,
-            "3": false,
-            "4": false
-        }
-    },
-    {
-        "_id": "5d51694902b2373622ff5b81",
-        "weight": 100,
-        "calories": 180,
-        "category": "fish",
-        "title": "Butter fish smoked",
-        "groupBloodNotAllowed": {
-            "1": false,
-            "2": false,
-            "3": false,
-            "4": false
-        }
-    },
-    {
-        "_id": "5d51694902b2373622ff5953",
-        "weight": 100,
-        "calories": 86,
-        "category": "meat",
-        "title": "beef kidneys",
-        "groupBloodNotAllowed": {
-            "1": false,
-            "2": false,
-            "3": false,
-            "4": false
-        }
-    },
-    {
-        "_id": "5d51694902b2373622ff5b14",
-        "weight": 100,
-        "calories": 87,
-        "category": "fish",
-        "title": "Pike caviar",
-        "groupBloodNotAllowed": {
-            "1": false,
-            "2": false,
-            "3": false,
-            "4": false
-        }
-    },
-    {
-        "_id": "5d51694902b2373622ff5b58",
-        "weight": 100,
-        "calories": 125,
-        "category": "fish",
-        "title": "red-eyed",
-        "groupBloodNotAllowed": {
-            "1": false,
-            "2": false,
-            "3": false,
-            "4": false
-        }
-    },
-    {
-        "_id": "5d51694902b2373622ff5e5b",
-        "weight": 100,
-        "calories": 24,
-        "category": "vegetables and herbs",
-        "title": "Green beans",
-        "groupBloodNotAllowed": {
-            "1": false,
-            "2": false,
-            "3": false,
-            "4": true
-        }
-    },
-    {
-        "_id": "5d51694802b2373622ff55bf",
-        "weight": 100,
-        "calories": 350,
-        "category": "cereals",
-        "title": "Oat flakes Myllyn Paras",
-        "groupBloodNotAllowed": {
-            "1": true,
-            "2": false,
-            "3": false,
-            "4": false
-        }
-    },
-    {
-        "_id": "5d51694902b2373622ff5b2b",
-        "weight": 100,
-        "calories": 138,
-        "category": "fish",
-        "title": "Canned carp",
-        "groupBloodNotAllowed": {
-            "1": false,
-            "2": false,
-            "3": false,
-            "4": false
-        }
-    },
-    {
-        "_id": "5d51694902b2373622ff5b9d",
-        "weight": 100,
-        "calories": 67,
-        "category": "fruits",
-        "title": "Apricot canned",
-        "groupBloodNotAllowed": {
-            "1": false,
-            "2": false,
-            "3": false,
-            "4": false
-        }
-    },
-    {
-        "_id": "5d51694902b2373622ff5d12",
-        "weight": 100,
-        "calories": 31,
-        "category": "vegetables and herbs",
-        "title": "Broccoli 4 seasons",
-        "groupBloodNotAllowed": {
-            "1": false,
-            "2": false,
-            "3": false,
-            "4": false
-        }
-    },
-    {
-        "_id": "5d51694902b2373622ff5bea",
-        "weight": 100,
-        "calories": 25,
-        "category": "fruits",
-        "title": "Syzygium",
-        "groupBloodNotAllowed": {
-            "1": false,
-            "2": false,
-            "3": false,
-            "4": false
-        }
-    },
-    {
-        "_id": "5d51694902b2373622ff5a9a",
-        "weight": 100,
-        "calories": 274,
-        "category": "sausage",
-        "title": "Krovyanka",
-        "groupBloodNotAllowed": {
-            "1": false,
-            "2": false,
-            "3": false,
-            "4": false
-        }
-    }
-]
+      },
+      "RemoveEatenProductResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Day id",
+            "example": "64ef2ddb6a956ae58574f9a8"
+          },
+          "date": {
+            "type": "string",
+            "description": "Date when product was eaten",
+            "example": "20-08-2023"
+          },
+          "owner": {
+            "type": "string",
+            "description": "User id",
+            "example": "64e8f5bd213e460301487d0a"
+          },
+          "consumedCalories": {
+            "type": "number",
+            "description": "Amount of consumed calories",
+            "example": 230
+          },
+          "consumedProducts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "product": {
+                  "type": "string",
+                  "description": "Product id",
+                  "example": "5d51694902b2373622ff5c95"
+                },
+                "amount": {
+                  "type": "number",
+                  "description": "Product amount",
+                  "example": 45
+                },
+                "calories": {
+                  "type": "number",
+                  "description": "Consumed calories",
+                  "example": 300
+                },
+                "_id": {
+                  "type": "string",
+                  "description": "Eaten product id",
+                  "example": "64ef50c321b001a9fed15bd1"
+                }
+              }
+            }
+          },
+          "burnedCalories": {
+            "type": "number",
+            "description": "Amount of burned calories",
+            "example": 1200
+          },
+          "timeSport": {
+            "type": "number",
+            "description": "Time spent on sport",
+            "example": 35
+          },
+          "doneExercises": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "exercise": {
+                  "type": "string",
+                  "description": "Done exercise id",
+                  "example": "64e5d7a0bc1733080d784346"
+                },
+                "time": {
+                  "type": "number",
+                  "description": "Time spent on exercise",
+                  "example": 10
+                },
+                "burnedCalories": {
+                  "type": "number",
+                  "description": "Amount of burned calories",
+                  "example": 571
+                },
+                "_id": {
+                  "type": "string",
+                  "description": "Done exercise id",
+                  "example": "64ef32627f0f51dd266a378e"
+                }
+              }
             }
           }
         },
-        "ProductsListFilteredCategoryResponse":{
-          "type": "object",
-          "properties": {
-            "message": {
-              "type": "object",
-              "description": "Sign out success",
-              "example": [
-    {
-        "_id": "5d51694902b2373622ff5c95",
-        "weight": 100,
-        "calories": 213,
-        "category": "nuts",
-        "title": "Canned chestnut",
-        "groupBloodNotAllowed": {
-            "1": false,
-            "2": false,
-            "3": false,
-            "4": true
-        }
-    },
-    {
-        "_id": "5d51694902b2373622ff5cad",
-        "weight": 100,
-        "calories": 354,
-        "category": "nuts",
-        "title": "Seychelles Walnut Coco de Mer",
-        "groupBloodNotAllowed": {
-            "1": false,
-            "2": false,
-            "3": false,
-            "4": true
-        }
-    },
-    {
-        "_id": "5d51694902b2373622ff5c97",
-        "weight": 100,
-        "calories": 680,
-        "category": "nuts",
-        "title": "Pine nuts",
-        "groupBloodNotAllowed": {
-            "1": false,
-            "2": false,
-            "3": false,
-            "4": true
-        }
-    },
-    {
-        "_id": "5d51694902b2373622ff5c9c",
-        "weight": 100,
-        "calories": 354,
-        "category": "nuts",
-        "title": "Coconut",
-        "groupBloodNotAllowed": {
-            "1": false,
-            "2": false,
-            "3": false,
-            "4": true
-        }
-    },
-    {
-        "_id": "5d51694902b2373622ff5c86",
-        "weight": 100,
-        "calories": 656,
-        "category": "nuts",
-        "title": "Brazilian nut",
-        "groupBloodNotAllowed": {
-            "1": false,
-            "2": false,
-            "3": false,
-            "4": true
-        }
-    }
-]
+        "example": {
+          "_id": "64bbe8151863e5edf9f56624",
+          "date": "2023-07-20",
+          "consumedCalories": 200,
+          "burnedCalories": 1020,
+          "sportTime": 80,
+          "doneExercises": [
+            {
+              "exercise": "648f91853093a98d6df7c478",
+              "time": 20,
+              "calories": 340,
+              "_id": "64bbe81d1863e5edf9f5662a"
+            },
+            {
+              "exercise": "648f91853093a98d6df7c478",
+              "time": 20,
+              "calories": 340,
+              "_id": "64bbe81f1863e5edf9f56632"
+            },
+            {
+              "exercise": "648f91853093a98d6df7c478",
+              "time": 20,
+              "calories": 340,
+              "_id": "64bbf397ecc35c22a541d5d3"
             }
-          }
+          ],
+          "user": "64b3257bec20387954fa708b",
+          "eatenProducts": [
+            {
+              "product": "5d51694902b2373622ff5b7f",
+              "amount": 25,
+              "calories": 100,
+              "_id": "64bbe8261863e5edf9f5663c"
+            },
+            {
+              "product": "5d51694902b2373622ff5b7f",
+              "amount": 25,
+              "calories": 100,
+              "_id": "64bbe8271863e5edf9f56648"
+            }
+          ]
         }
-    },
-    "securitySchemes": {
-      "Bearer": {
-        "type": "http",
-        "scheme": "bearer",
-        "bearerFormat": "JWT"
+      },
+      "GetDailyDataResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Day id",
+            "example": "64ef2ddb6a956ae58574f9a8"
+          },
+          "date": {
+            "type": "string",
+            "description": "Date when product was eaten",
+            "example": "20-08-2023"
+          },
+          "owner": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "description": "Owner's user id"
+              },
+              "bodyData": {
+                "type": "object",
+                "properties": {
+                  "height": {
+                    "type": "number",
+                    "description": "Height of the owner"
+                  },
+                  "currentWeight": {
+                    "type": "number",
+                    "description": "Current weight of the owner"
+                  },
+                  "desiredWeight": {
+                    "type": "number",
+                    "description": "Desired weight of the owner"
+                  },
+                  "birthday": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Birthday of the owner"
+                  },
+                  "blood": {
+                    "type": "number",
+                    "description": "Blood group of the owner"
+                  },
+                  "sex": {
+                    "type": "string",
+                    "description": "Sex of the owner"
+                  },
+                  "levelActivity": {
+                    "type": "number",
+                    "description": "Level of physical activity of the owner"
+                  },
+                  "dailyRateCalories": {
+                    "type": "number",
+                    "description": "Daily calorie intake rate for the owner"
+                  },
+                  "dailySportMin": {
+                    "type": "number",
+                    "description": "Daily minutes of sport activity for the owner"
+                  }
+                },
+                "description": "Body data information of the owner"
+              }
+            },
+            "description": "Owner's information"
+          },
+          "consumedCalories": {
+            "type": "number",
+            "description": "Amount of consumed calories",
+            "example": 230
+          },
+          "consumedProducts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "product": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "description": "Product id"
+                    },
+                    "weight": {
+                      "type": "number",
+                      "description": "Weight of the product"
+                    },
+                    "calories": {
+                      "type": "number",
+                      "description": "Calories in the product"
+                    },
+                    "category": {
+                      "type": "string",
+                      "description": "Category of the product"
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "Title of the product"
+                    },
+                    "groupBloodNotAllowed": {
+                      "type": "object",
+                      "properties": {
+                        "1": {
+                          "type": "boolean",
+                          "description": "Blood group 1"
+                        },
+                        "2": {
+                          "type": "boolean",
+                          "description": "Blood group 2"
+                        },
+                        "3": {
+                          "type": "boolean",
+                          "description": "Blood group 3"
+                        },
+                        "4": {
+                          "type": "boolean",
+                          "description": "Blood group 4"
+                        }
+                      },
+                      "description": "Blood groups for which the product is not allowed"
+                    }
+                  },
+                  "description": "Consumed product information"
+                },
+                "amount": {
+                  "type": "number",
+                  "description": "Amount of the consumed product"
+                },
+                "calories": {
+                  "type": "number",
+                  "description": "Total calories from the consumed product"
+                },
+                "_id": {
+                  "type": "string",
+                  "description": "Consumed product id"
+                }
+              }
+            },
+            "description": "List of consumed products with details"
+          },
+
+          "burnedCalories": {
+            "type": "number",
+            "description": "Amount of burned calories",
+            "example": 1200
+          },
+          "timeSport": {
+            "type": "number",
+            "description": "Time spent on sport",
+            "example": 35
+          },
+          "doneExercises": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "exercise": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "description": "Exercise id"
+                    },
+                    "bodyPart": {
+                      "type": "string",
+                      "description": "Body part targeted by the exercise"
+                    },
+                    "equipment": {
+                      "type": "string",
+                      "description": "Equipment used for the exercise"
+                    },
+                    "gifUrl": {
+                      "type": "string",
+                      "format": "url",
+                      "description": "URL to a GIF demonstrating the exercise"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Name of the exercise"
+                    },
+                    "target": {
+                      "type": "string",
+                      "description": "Muscle group targeted by the exercise"
+                    },
+                    "burnedCalories": {
+                      "type": "number",
+                      "description": "Calories burned by performing the exercise"
+                    },
+                    "time": {
+                      "type": "number",
+                      "description": "Time spent on the exercise (in minutes)"
+                    }
+                  },
+                  "description": "Exercise information"
+                },
+                "time": {
+                  "type": "number",
+                  "description": "Time spent on the exercise (in minutes)"
+                },
+                "burnedCalories": {
+                  "type": "number",
+                  "description": "Amount of calories burned during the exercise"
+                },
+                "_id": {
+                  "type": "string",
+                  "description": "Done exercise id"
+                }
+              }
+            },
+            "description": "Array of exercises completed by the user"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the exercise entry was created in the diary",
+            "example": "2023-08-30T11:54:03.339Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the exercise entry was last updated in the diary",
+            "example": "2023-08-30T12:13:22.912Z"
+          }
+        },
+        "example": {
+          "_id": "64ef2ddb6a956ae58574f9a8",
+          "date": "20-08-2023",
+          "owner": {
+            "_id": "64e8f5bd213e460301487d0a",
+            "bodyData": {
+              "height": 174,
+              "currentWeight": 65,
+              "desiredWeight": 60,
+              "birthday": "1983-03-15T00:00:00.000Z",
+              "blood": 2,
+              "sex": "female",
+              "levelActivity": 3,
+              "dailyRateCalories": 2134,
+              "dailySportMin": 110
+            }
+          },
+          "consumedCalories": 426,
+          "consumedProducts": [
+            {
+              "product": {
+                "_id": "5d51694902b2373622ff5c95",
+                "weight": 100,
+                "calories": 213,
+                "category": "nuts",
+                "title": "Canned chestnut",
+                "groupBloodNotAllowed": {
+                  "1": false,
+                  "2": false,
+                  "3": false,
+                  "4": true
+                }
+              },
+              "amount": 200,
+              "calories": 426,
+              "_id": "64ef50c521b001a9fed15bdc"
+            }
+          ],
+          "burnedCalories": 571,
+          "timeSport": 35,
+          "doneExercises": [
+            {
+              "exercise": {
+                "_id": "64e5d7a0bc1733080d784346",
+                "bodyPart": "waist",
+                "equipment": "assisted",
+                "gifUrl": "https://res.cloudinary.com/ditdqzoio/image/upload/v1687127066/exercises/0011.gif",
+                "name": "assisted hanging knee raise",
+                "target": "abs",
+                "burnedCalories": 49,
+                "time": 3
+              },
+              "time": 35,
+              "burnedCalories": 571,
+              "_id": "64ef32627f0f51dd266a378e"
+            }
+          ]
+        }
       }
-    }
+    },  
+      "securitySchemes": {
+        "Bearer": {
+          "type": "http",
+          "scheme": "bearer",
+          "bearerFormat": "JWT"
+        }
+      }
     
   }
 }

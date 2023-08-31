@@ -1,9 +1,17 @@
-const { Diary } = require("../../models/diary");
+const { Diary, schemas } = require("../../models/diary");
 const { HttpError } = require("../../helpers");
 
 const removeProduct = async (req, res) => {
   const { _id: id_user } = req.user;
   const { date, productId } = req.body;
+
+  const validation = schemas.removeProductSchema.validate({
+    date,
+    product: productId,
+  });
+  if (validation.error) {
+    throw HttpError(400, validation.error.details[0].message);
+  }
 
   let foundDiary = await Diary.findOne({ date, owner: id_user });
 
