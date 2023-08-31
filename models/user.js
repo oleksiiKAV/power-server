@@ -144,7 +144,7 @@ const addBodyDataSchema = Joi.object({
   }),
   desiredWeight: Joi.number().min(35).required().messages({
     'number.base': 'The desired weight must be a number.',
-    'number.min': 'The desired weight must be at least 135.',
+    'number.min': 'The desired weight must be at least 35.',
     'any.required': 'The desired weight field is required.',
   }),
   birthday: Joi.date()
@@ -175,7 +175,7 @@ const addBodyDataSchema = Joi.object({
   }),
   levelActivity: Joi.number().valid(1, 2, 3, 4, 5).required().messages({
     'number.base': 'The level activity must be a number',
-    'any.only': 'Invalid level activity. Allowed values are 1, 2, 3, or 4.',
+    'any.only': 'Invalid level activity. Allowed values are 1, 2, 3, 4 or 5.',
     'any.required': 'The level activity field is required',
   }),
 });

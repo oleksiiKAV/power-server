@@ -12,12 +12,11 @@ test.describe.parallel('User add users body information', () => {
 
   for (const testCase of addIncorrectBody) {
 
-    test.only(`User Login  - wrong body data: ${JSON.stringify(testCase.bodyData)}. Expected message: "${testCase.expectedMessage}"}`, async ({ request }) => {
+    test(`User Login  - wrong body data: ${JSON.stringify(testCase.bodyData)}. Expected message: "${testCase.expectedMessage}"}`, async ({ request }) => {
       const userData: UserData = singnUpValidBody.userData;
       const responseBody = await signUpAndLogin(request, userData);
       const token = responseBody.token;
-      console.log(testCase)
-      console.log(testCase.expectedMessage)
+      
       try {
         const respAddBody = await request.post(`${baseUrl}/users/body`, { headers: { "Authorization": `Bearer ${token}` }, data: testCase.bodyData, })
 
