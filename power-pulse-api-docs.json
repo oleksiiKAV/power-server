@@ -470,7 +470,7 @@
         }
       }
     },
-       "/products/admissible/?page=1&limit=5": {
+    "/products/admissible/?page=1&limit=5": {
       "get": {
         "tags": [
           "Products"
