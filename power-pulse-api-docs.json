@@ -3,7 +3,7 @@
   "info": {
     "version": "1.0.0",
     "title": "PowerPulse",
-    "description": "PowerPulse backend"
+    "description": "PowerPulse backend. <p>The main goal of the project is to provide users with tools to control their dietary consumption and monitor their physical well-being by tracking their sporting activities.</p>"
   },
   "servers": [
     {
