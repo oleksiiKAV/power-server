@@ -1,4 +1,4 @@
-const { Diary } = require("../../models/diary");
+const { Diary, schemas } = require("../../models/diary");
 const { HttpError } = require("../../helpers");
 
 const removeExercise = async (req, res) => {
@@ -6,10 +6,18 @@ const removeExercise = async (req, res) => {
 
   const { date, exerciseId } = req.body;
 
+  const validation = schemas.removeExerciseSchema.validate({
+    date,
+    exercise: exerciseId,
+  });
+  if (validation.error) {
+    throw HttpError(400, validation.error.details[0].message);
+  }
+
   let foundDiary = await Diary.findOne({ date, owner: id_user });
 
   if (!foundDiary) {
-    throw new HttpError(401, "No data found for this date");
+    throw HttpError(401, "No data found for this date");
   }
 
   const completedExercises = foundDiary.doneExercises.find(
@@ -17,7 +25,7 @@ const removeExercise = async (req, res) => {
   );
 
   if (!completedExercises) {
-    throw new HttpError(401, "This exercise is not found");
+    throw HttpError(401, "This exercise is not found");
   }
 
   const result = await Diary.findByIdAndUpdate(
