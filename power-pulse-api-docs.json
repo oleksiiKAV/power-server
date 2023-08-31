@@ -479,7 +479,9 @@
         }
       }
     },
+
     "/products/admissible/?page={page}&limit={limit}": {
+
       "get": {
         "tags": ["Products"],
         "summary": "Get information about pagination of products list",
