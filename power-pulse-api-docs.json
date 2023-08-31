@@ -348,6 +348,11 @@
       "get": {
         "tags": ["Products"],
         "summary": "Get information for products category",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -374,6 +379,11 @@
       "get": {
         "tags": ["Products"],
         "summary": "Get information for products list",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -400,6 +410,11 @@
       "get": {
         "tags": ["Products"],
         "summary": "Get information about the list of products filtered with the permission of the blood group",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -422,10 +437,26 @@
         }
       }
     },
-    "/products/admissible/?category=*": {
+    "/products/admissible/?category={category}": {
       "get": {
         "tags": ["Products"],
         "summary": "Get information about the list of products filtered by category group",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "category",
+            "description": "Category of the product",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -448,13 +479,49 @@
         }
       }
     },
-    "/products/admissible/?page=1&limit=5": {
+    "/products/admissible/?page={page}&limit={limit}": {
       "get": {
         "tags": ["Products"],
         "summary": "Get information about pagination of products list",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],  
+        "parameters": [
+          {
+            "in": "path",
+            "name": "page",
+            "description": "Page of the product",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "path",
+            "name": "limit",
+            "description": "Limit of the product",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "Successful operation"
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginationResponse"
+                }
+              }
+            }
+          },
+            "401": {
+            "description": "Unauthorized",
+            "content": {}
           },
           "404": {
             "description": "Not found",
@@ -1682,6 +1749,82 @@
                 }
               }
             ]
+          }
+        }
+      },
+      "PaginationResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "object",
+            "description": "Sign out success",
+            "example": [
+    {
+        "_id": "5d51694902b2373622ff5ccf",
+        "weight": 100,
+        "calories": 110,
+        "category": "dried fruits",
+        "title": "Dried rosehip",
+        "groupBloodNotAllowed": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false
+        }
+    },
+    {
+        "_id": "5d51694902b2373622ff5c95",
+        "weight": 100,
+        "calories": 213,
+        "category": "nuts",
+        "title": "Canned chestnut",
+        "groupBloodNotAllowed": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": true
+        }
+    },
+    {
+        "_id": "5d51694902b2373622ff5cb8",
+        "weight": 100,
+        "calories": 305,
+        "category": "seeds",
+        "title": "Dill seeds",
+        "groupBloodNotAllowed": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false
+        }
+    },
+    {
+        "_id": "5d51694902b2373622ff5e03",
+        "weight": 100,
+        "calories": 91,
+        "category": "vegetables and herbs",
+        "title": "Cocktail salad Bonduelle Hawaiian marinated",
+        "groupBloodNotAllowed": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false
+        }
+    },
+    {
+        "_id": "5d51694902b2373622ff5ef6",
+        "weight": 100,
+        "calories": 100,
+        "category": "soft drinks",
+        "title": "Coffee Maxwell House instant dry",
+        "groupBloodNotAllowed": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false
+        }
+    }
+]
           }
         }
       },
