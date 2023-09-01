@@ -31,8 +31,7 @@ const removeExercise = async (req, res) => {
   const result = await Diary.findByIdAndUpdate(
     foundDiary._id,
     {
-      $inc: { burnedCalories: -completedExercises.calories },
-      $inc: { timeSport: -completedExercises.time },
+      $inc: { timeSport: -completedExercises.time, burnedCalories: -completedExercises.calories },
       $pull: { doneExercises: { _id: completedExercises._id } },
     },
     { new: true }
