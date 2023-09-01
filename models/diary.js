@@ -1,15 +1,15 @@
 const { Schema, model } = require("mongoose");
 const Joi = require("joi");
 
+const { handleMangooseError, dateRegexp } = require("../helpers");
 const {
-  handleMangooseError,
   errorDateMessages,
   errorProductMessages,
   errorAmountMessages,
   errorExerciseMessages,
   errorTimeMessages,
-  dateRegexp,
-} = require("../helpers");
+} = require("../helpers/errorMessages/index");
+
 const { validateDateInPast } = require("../middlewares");
 
 const diarySchema = new Schema(
