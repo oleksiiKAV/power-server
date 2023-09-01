@@ -1,16 +1,15 @@
 const { Schema, model } = require("mongoose");
 const Joi = require("joi");
 
+const { handleMangooseError, dateRegexp } = require("../helpers");
+const { validateDateInPast } = require("../middlewares");
 const {
-  handleMangooseError,
   errorDateMessages,
   errorProductMessages,
   errorAmountMessages,
-  errorExerciseMessages,
+  errorЕxerciseMessages,
   errorTimeMessages,
-  dateRegexp,
 } = require("../helpers");
-const { validateDateInPast } = require("../middlewares");
 
 const diarySchema = new Schema(
   {
@@ -107,7 +106,7 @@ const addExerciseSchema = Joi.object({
     .pattern(dateRegexp)
     .custom(validateDateInPast)
     .messages(errorDateMessages),
-  exercise: Joi.string().required().messages(errorExerciseMessages),
+  exercise: Joi.string().required().messages(errorЕxerciseMessages),
   time: Joi.number().required().messages(errorTimeMessages),
 });
 
@@ -118,7 +117,7 @@ const removeExerciseSchema = Joi.object({
     .pattern(dateRegexp)
     .custom(validateDateInPast)
     .messages(errorDateMessages),
-  exercise: Joi.string().required().messages(errorExerciseMessages),
+  exercise: Joi.string().required().messages(errorЕxerciseMessages),
 });
 
 const schemas = {

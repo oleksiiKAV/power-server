@@ -1,11 +1,8 @@
 const HttpError = require("./HttpError");
 const CtrlWrapper = require("./CtrlWrapper");
 const handleMangooseError = require("./handleMangooseError");
-const errorDateMessages = require("./errorDateMessages");
-const errorProductMessages = require("./errorProductMessages");
-const errorAmountMessages = require("./errorAmountMessages");
-const { dateRegexp, emailRegexp, passwordRegexp } = require("./dateRegexp");
 
+const { dateRegexp, emailRegexp, passwordRegexp } = require("./dateRegexp");
 const {
   errorUserModelName,
   errorUserModelEmail,
@@ -20,6 +17,14 @@ const {
   errorUserModelSex,
   errorUserModelLevelActivity,
 } = require("./errorsUserModel");
+
+const {
+  errorDateMessages,
+  errorProductMessages,
+  errorAmountMessages,
+  errorЕxerciseMessages,
+  errorTimeMessages,
+} = require("./errorsDiaryMessages");
 
 module.exports = {
   HttpError,
@@ -43,4 +48,9 @@ module.exports = {
   errorUserModelBlood,
   errorUserModelSex,
   errorUserModelLevelActivity,
+  errorDateMessages,
+  errorProductMessages,
+  errorAmountMessages,
+  errorЕxerciseMessages,
+  errorTimeMessages,
 };
