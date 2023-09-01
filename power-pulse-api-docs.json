@@ -3,7 +3,7 @@
   "info": {
     "version": "1.0.0",
     "title": "PowerPulse",
-    "description": "PowerPulse backend"
+    "description": "PowerPulse backend. <p>The main goal of the project is to provide users with tools to control their dietary consumption and monitor their physical well-being by tracking their sporting activities.</p>"
   },
   "servers": [
     {
@@ -36,7 +36,7 @@
     },
     {
       "name": "Diary",
-      "description": "Diary endpoints"
+      "description": "Diaries endpoints"
     }
   ],
   "paths": {
@@ -348,6 +348,11 @@
       "get": {
         "tags": ["Products"],
         "summary": "Get information for products category",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -374,6 +379,11 @@
       "get": {
         "tags": ["Products"],
         "summary": "Get information for products list",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -400,6 +410,11 @@
       "get": {
         "tags": ["Products"],
         "summary": "Get information about the list of products filtered with the permission of the blood group",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -422,10 +437,26 @@
         }
       }
     },
-    "/products/admissible/?category=*": {
+    "/products/admissible/?category={category}": {
       "get": {
         "tags": ["Products"],
         "summary": "Get information about the list of products filtered by category group",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "category",
+            "description": "Category of the product",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -448,16 +479,220 @@
         }
       }
     },
-    "/products/admissible/?page=1&limit=5": {
+
+    "/products/admissible/?page={page}&limit={limit}": {
+
       "get": {
         "tags": ["Products"],
         "summary": "Get information about pagination of products list",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],  
+        "parameters": [
+          {
+            "in": "path",
+            "name": "page",
+            "description": "Page of the product",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "path",
+            "name": "limit",
+            "description": "Limit of the product",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "Successful operation"
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginationResponse"
+                }
+              }
+            }
+          },
+            "401": {
+            "description": "Unauthorized",
+            "content": {}
           },
           "404": {
             "description": "Not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/exercises": {
+      "get": {
+        "tags": ["Exercises"],
+        "summary": "Get all exercises",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+          "parameters": [
+        {
+          "name": "bodypart",
+          "in": "query",
+          "schema": {
+            "type": "string"
+          },
+          "description": "Filter exercises by body part"
+        },
+        {
+          "name": "muscles",
+          "in": "query",
+          "schema": {
+            "type": "string"
+          },
+          "description": "Filter exercises by target muscles"
+        },
+        {
+          "name": "equipment",
+          "in": "query",
+          "schema": {
+            "type": "string"
+          },
+          "description": "Filter exercises by equipment"
+        }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAllExercisesResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Service not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/exercises/bodyparts": {
+      "get": {
+        "tags": ["Exercises"],
+        "summary": "Get all bodyparts",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetBodyPartsResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Service not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/exercises/muscles": {
+      "get": {
+        "tags": ["Exercises"],
+        "summary": "Get all muscles",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetMusclesResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Service not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/exercises/equipments": {
+      "get": {
+        "tags": ["Exercises"],
+        "summary": "Get all equipments",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetEquipmentsResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Service not found",
             "content": {}
           },
           "500": {
@@ -522,17 +757,18 @@
             "Bearer": []
           }
         ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "description": "ID of the eaten product to be removed",
-            "required": true,
-            "schema": {
-              "type": "string"
+        "requestBody": {
+          "description": "Date and ID of the eaten product to be removed",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RemoveEatenProductRequest"
+              }
             }
           }
-        ],
+        },
+        
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -601,6 +837,106 @@
           },
           "401": {
             "description": "Unauthorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Service not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/diaries/exercise/add": {
+      "post": {
+        "tags": [
+          "Diary"
+        ],
+        "summary": "Add done exercise to diary",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "requestBody": {
+          "description": "Add exercise object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddDoneExerciseResponse"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddDoneExerciseResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/diaries/exercise/{id}": {
+      "delete": {
+        "tags": [
+          "Diary"
+        ],
+        "summary": "Remove done exercise from diary",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "requestBody": {
+          "description": "Date and ID of the eaten product to be removed",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RemoveDoneExerciseRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoveDoneExerciseResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          },
+          "401": {
+            "description": "Info about this date not found",
             "content": {}
           },
           "404": {
@@ -1685,6 +2021,236 @@
           }
         }
       },
+      "PaginationResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "object",
+            "description": "Sign out success",
+            "example": [
+    {
+        "_id": "5d51694902b2373622ff5ccf",
+        "weight": 100,
+        "calories": 110,
+        "category": "dried fruits",
+        "title": "Dried rosehip",
+        "groupBloodNotAllowed": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false
+        }
+    },
+    {
+        "_id": "5d51694902b2373622ff5c95",
+        "weight": 100,
+        "calories": 213,
+        "category": "nuts",
+        "title": "Canned chestnut",
+        "groupBloodNotAllowed": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": true
+        }
+    },
+    {
+        "_id": "5d51694902b2373622ff5cb8",
+        "weight": 100,
+        "calories": 305,
+        "category": "seeds",
+        "title": "Dill seeds",
+        "groupBloodNotAllowed": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false
+        }
+    },
+    {
+        "_id": "5d51694902b2373622ff5e03",
+        "weight": 100,
+        "calories": 91,
+        "category": "vegetables and herbs",
+        "title": "Cocktail salad Bonduelle Hawaiian marinated",
+        "groupBloodNotAllowed": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false
+        }
+    },
+    {
+        "_id": "5d51694902b2373622ff5ef6",
+        "weight": 100,
+        "calories": 100,
+        "category": "soft drinks",
+        "title": "Coffee Maxwell House instant dry",
+        "groupBloodNotAllowed": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false
+        }
+    }
+]
+          }
+        }
+      },
+      "GetAllExercisesResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Exercise id",
+            "example": "64ef2ddb6a956ae58574f9a8"
+          },
+          "bodyPart": {
+            "type": "string",
+            "description": "Body part targeted by the exercise",
+            "example": "back"
+          },
+          "equipment": {
+            "type": "string",
+            "description": "Equipment used for the exercise",
+            "example": "barbell"
+          },
+          "gifUrl": {
+            "type": "string",
+            "description": "URL to a GIF demonstrating the exercise",
+            "example": "https://res.cloudinary.com/ditdqzoio/image/upload/v1687127066/exercises/0037.gif"
+          },
+          "name": {
+            "type": "string",
+            "description": "Exercise name",
+            "example": "barbell decline wide-grip pullover"
+          },
+          "target": {
+            "type": "string",
+            "description": "Muscle group targeted by the exercise",
+            "example": "lats"
+          },
+          "burnedCalories": {
+            "type": "number",
+            "description": "The amount of calories burned by performing the exercise",
+            "example": 307
+          },
+          "time": {
+            "type": "number",
+            "description": "Time spent on the exercise (in minutes)",
+            "example": 3
+          }
+        },
+        "example": {
+        "_id": "64e5d7a0bc1733080d78435f",
+        "bodyPart": "back",
+        "equipment": "barbell",
+        "gifUrl": "https://res.cloudinary.com/ditdqzoio/image/upload/v1687127066/exercises/0037.gif",
+        "name": "barbell decline wide-grip pullover",
+        "target": "lats",
+        "burnedCalories": 307,
+        "time": 3
+        }
+      },
+      "GetBodyPartsResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "",
+            "example": [
+              "back",
+              "cardio",
+              "chest",
+              "lower arms",
+              "lower legs",
+              "neck",
+              "shoulders",
+              "upper arms",
+              "upper legs",
+              "waist"
+            ]
+          }
+        }
+      },
+      "GetMusclesResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "",
+            "example": [
+              "abductors",
+              "abs",
+              "adductors",
+              "biceps",
+              "calves",
+              "cardiovascular system",
+              "delts",
+              "forearms",
+              "glutes",
+              "hamstrings",
+              "lats",
+              "levator scapulae",
+              "pectorals",
+              "quads",
+              "serratus anterior",
+              "spine",
+              "traps",
+              "triceps",
+              "upper back"
+            ]
+          }
+        }
+      },
+      "GetEquipmentsResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "",
+            "example": [
+              "assisted",
+              "band",
+              "barbell",
+              "body weight",
+              "bosu ball",
+              "cable",
+              "dumbbell",
+              "elliptical machine",
+              "ez barbell",
+              "hammer",
+              "kettlebell",
+              "leverage machine",
+              "medicine ball",
+              "olympic barbell",
+              "resistance band",
+              "roller",
+              "rope",
+              "skierg machine",
+              "sled machine",
+              "smith machine",
+              "stability ball",
+              "stationary bike",
+              "stepmill machine",
+              "tire",
+              "trap bar",
+              "upper body ergometer",
+              "weighted",
+              "wheel roller"
+            ]
+          }
+        }
+      },
       "AddEatenProductRequest": {
         "type": "object",
         "required": ["date", "product", "amount"],
@@ -2273,6 +2839,216 @@
               "_id": "64ef32627f0f51dd266a378e"
             }
           ]
+        }
+      },
+      "AddDoneExerciseRequest": {
+        "type": "object",
+        "required": [
+          "date",
+          "exercise",
+          "time"
+        ],
+        "properties": {
+          "date": {
+            "type": "string",
+            "description": "The date of exercise",
+            "example": "22-05-2023"
+          },
+          "exercise": {
+            "type": "string",
+            "description": "ID of exercise",
+            "example": "64e5d7a0bc1733080d78435f"
+          },
+          "time": {
+            "type": "number",
+            "description": "Exercise duration in minutes",
+            "example": 5
+          }
+        }
+	    },
+      "AddDoneExerciseResponse": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "description": "The date of exercise",
+            "example": "22-05-2022"
+          },
+          "consumedCalories": {
+            "type": "string",
+            "description": "Consumed amount of calories",
+            "example": "0"
+          },
+          "burnedCalories_": {
+            "type": "string",
+            "description": "Burned amount of calories per day",
+            "example": "511"
+          },
+          "timeSport": {
+            "type": "number",
+            "description": "Total exercise time per day",
+            "example": "5"
+          },
+          "doneExercises": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "exercise": {
+                  "type": "string",
+                  "description": "ID of the exercise"
+                },
+                "time": {
+                  "type": "integer",
+                  "description": "Time spent on the exercise in minutes"
+                },
+                "burnedCalories": {
+                  "type": "integer",
+                  "description": "Calories burned during the exercise"
+                },
+                "_id": {
+                  "type": "string",
+                  "description": "Unique ID of the exercise entry"
+                }
+              }
+            }
+          },
+          "owner": {
+            "type": "string",
+            "description": "User id ",
+            "example": "64e9c27b813cd8c1dbe7e54b"
+          },
+          "_id": {
+            "type": "string",
+            "description": "Day id",
+            "example": "64ef4c85f4c84603be49a15e"
+          },
+          "consumedProducts": {
+            "type": "object",
+            "description": "Consumed products per day ",
+            "example": "[]"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the exercise entry was created in the diary",
+            "example": "2023-08-30T11:54:03.339Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the exercise entry was last updated in the diary",
+            "example": "2023-08-30T12:13:22.912Z"
+          }
+        },
+        "example": {
+          "date": "22-05-2022",
+          "consumedCalories": 0,
+          "burnedCalories": 511,
+          "timeSport": 5,
+          "doneExercises": [
+            {
+              "exercise": "64e5d7a0bc1733080d78435f",
+              "time": 5,
+              "burnedCalories": 511,
+              "_id": "64ef4c85f4c84603be49a15f"
+            }
+          ],
+          "owner": "64e9c27b813cd8c1dbe7e54b",
+          "_id": "64ef4c85f4c84603be49a15e",
+          "consumedProducts": [],
+          "createdAt": "2023-08-30T14:04:53.251Z",
+          "updatedAt": "2023-08-30T14:04:53.251Z"
+        }
+      },
+      "RemoveDoneExerciseRequest": {
+        "type": "object",
+        "required": ["date", "exerciseId"],
+        "properties": {
+          "date": {
+            "type": "string",
+            "description": "Date when product was eaten",
+            "example": "21-08-2023"
+          },
+          "productId": {
+            "type": "string",
+            "description": "Eaten product id",
+            "example": "64ef43053b4609d9829ec849"
+          }
+        }
+      },
+      "RemoveDoneExerciseResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Day id",
+            "example": "64ef4c85f4c84603be49a15e"
+          },
+          "date": {
+            "type": "string",
+            "description": "The date of exercise to remove",
+            "example": "22-05-2022"
+          },
+          "consumedCalories": {
+            "type": "string",
+            "description": "Consumed amount of calories",
+            "example": "0"
+          },
+          "burnedCalories_": {
+            "type": "string",
+            "description": "Burned amount of calories per day",
+            "example": "511"
+          },
+          "timeSport": {
+            "type": "number",
+            "description": "Total exercise time per day",
+            "example": "5"
+          },
+          "doneExercises": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "exercise": {
+                  "type": "string",
+                  "description": "ID of the exercise"
+                },
+                "time": {
+                  "type": "integer",
+                  "description": "Time spent on the exercise in minutes"
+                },
+                "burnedCalories": {
+                  "type": "integer",
+                  "description": "Calories burned during the exercise"
+                },
+                "_id": {
+                  "type": "string",
+                  "description": "Unique ID of the exercise entry"
+                }
+              }
+            }
+          },
+          "owner": {
+            "type": "string",
+            "description": "User id ",
+            "example": "64e9c27b813cd8c1dbe7e54b"
+          },
+          "consumedProducts": {
+            "type": "object",
+            "description": "Consumed products per day ",
+            "example": "[]"
+          }
+        },
+        "example": {
+          "_id": "64ef4c85f4c84603be49a15e",
+          "date": "22-05-2022",
+          "consumedCalories": 0,
+          "burnedCalories": 511,
+          "timeSport": 0,
+          "doneExercises": [],
+          "owner": "64e9c27b813cd8c1dbe7e54b",
+          "consumedProducts": []
         }
       }
     },  
