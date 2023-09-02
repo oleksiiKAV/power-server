@@ -1,7 +1,5 @@
 const { Diary } = require("../../models/diary");
 const { HttpError, dateRegexp } = require("../../helpers");
-const { Product } = require("../../models/product");
-const { Exercise } = require("../../models/exercise");
 
 const getDailyData = async (req, res, next) => {
   const { _id } = req.user;
@@ -14,51 +12,16 @@ const getDailyData = async (req, res, next) => {
   let data = await Diary.findOne({ date, owner: _id })
     .populate({
       path: "owner",
-      select:
-        "bodyData consumedCalories burnedCalories timeSport doneExersices",
     })
-    .select("-createdAt -updatedAt")
-    .lean();
-
-  if (!data) {
-    throw HttpError(404, "No data found for the specified date");
-  }
-
-  const consumedProducts = await Promise.all(
-    data.consumedProducts.map(async (product) => {
-      if (product.product) {
-        const fullProduct = await Product.findById(product.product).lean();
-        if (fullProduct) {
-          return {
-            ...product,
-            product: fullProduct,
-          };
-        }
-      }
-      return product;
+    .populate({
+      path: "consumedProducts.product",
+      model: "product",
     })
-  );
+    .populate({
+      path: "doneExercises.exercise",
+      model: "exercise",
+    });
 
-  const doneExercises = await Promise.all(
-    data.doneExercises.map(async (exercise) => {
-      if (exercise.exercise) {
-        const fullExercise = await Exercise.findById(exercise.exercise).lean();
-        if (fullExercise) {
-          return {
-            ...exercise,
-            exercise: fullExercise,
-          };
-        }
-      }
-      return exercise;
-    })
-  );
-
-  data = {
-    ...data,
-    consumedProducts: consumedProducts,
-    doneExercises: doneExercises,
-  };
   res.json(data);
 };
 
