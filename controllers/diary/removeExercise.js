@@ -27,22 +27,13 @@ const removeExercise = async (req, res) => {
   if (!completedExercises) {
     throw HttpError(401, "This exercise is not found");
   }
-
-  // const result = await Diary.findByIdAndUpdate(
-  //   foundDiary._id,
-  //   {
-  //     $inc: {
-  //       timeSport: -completedExercises.time,
-  //       burnedCalories: -completedExercises.calories,
-  //     },
-  //     $pull: { doneExercises: { _id: completedExercises._id } },
-  //   },
-  //   { new: true }
-  // ).select("-createdAt -updatedAt");
   const result = await Diary.findByIdAndUpdate(
     foundDiary._id,
     {
-      $inc: { burnedCalories: -completedExercises.calories },
+      $inc: {
+        burnedCalories: -completedExercises.burnedCalories,
+        timeSport: -completedExercises.time,
+      },
       $pull: { doneExercises: { _id: completedExercises._id } },
     },
     { new: true }
