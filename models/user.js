@@ -105,46 +105,46 @@ const userSchema = Schema(
 userSchema.post("save", handleMangooseError);
 
 const registerSchema = Joi.object({
-  name: Joi.string().required().empty(false).messages({ errorUserModelName }),
+  name: Joi.string().required().empty(false).messages( errorUserModelName ),
   email: Joi.string()
     .pattern(emailRegexp)
     .required()
     .empty(false)
-    .messages({ errorUserModelEmail }),
+    .messages(errorUserModelEmail ),
   password: Joi.string()
     .pattern(passwordRegexp)
     .min(7)
     .required()
     .empty(false)
-    .messages({ errorUserModelPassw }),
+    .messages( errorUserModelPassw ),
 });
 const loginSchema = Joi.object({
   email: Joi.string()
     .pattern(emailRegexp)
     .required()
     .empty(false)
-    .messages({ errorUserModelEmail }),
+    .messages( errorUserModelEmail ),
   password: Joi.string()
     .pattern(passwordRegexp)
     .min(7)
     .required()
     .empty(false)
-    .messages({ errorUserModelPassw }),
+    .messages( errorUserModelPassw ),
 });
 const updateSchema = Joi.object({
-  name: Joi.string().empty(false).messages({ errorUserModelUpdateName }),
-  avatar: Joi.string().empty(false).messages({ errorUserModelUpdateAvatar }),
+  name: Joi.string().empty(false).messages( errorUserModelUpdateName ),
+  avatar: Joi.string().empty(false).messages( errorUserModelUpdateAvatar ),
 });
 const addBodyDataSchema = Joi.object({
-  height: Joi.number().min(150).required().messages({ errorUserModelHeight }),
+  height: Joi.number().min(150).required().messages( errorUserModelHeight ),
   currentWeight: Joi.number()
     .min(35)
     .required()
-    .messages({ errorUserModelCurrentWeight }),
+    .messages( errorUserModelCurrentWeight ),
   desiredWeight: Joi.number()
     .min(35)
     .required()
-    .messages({ errorUserModelDesiredWeight }),
+    .messages( errorUserModelDesiredWeight ),
   birthday: Joi.date()
     .raw()
     .required()
@@ -157,19 +157,19 @@ const addBodyDataSchema = Joi.object({
         throw HttpError(400, "The person must be 18 years or older");
       }
     })
-    .messages({ errorUserModelBirthday }),
+    .messages( errorUserModelBirthday ),
   blood: Joi.number()
     .valid(1, 2, 3, 4)
     .required()
-    .messages({ errorUserModelBlood }),
+    .messages( errorUserModelBlood ),
   sex: Joi.string()
     .valid("male", "female")
     .required()
-    .messages({ errorUserModelSex }),
+    .messages( errorUserModelSex ),
   levelActivity: Joi.number()
     .valid(1, 2, 3, 4, 5)
     .required()
-    .messages({ errorUserModelLevelActivity }),
+    .messages( errorUserModelLevelActivity ),
 });
 
 const User = model("user", userSchema);

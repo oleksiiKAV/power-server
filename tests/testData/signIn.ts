@@ -56,10 +56,9 @@ export const singnInIncorrectBody = [
           expectedMessage: 'The password must consist of 6 English letters and 1 number.'
         },
         {
-            userData: {
-              "name":"test",
+            userData: {              
               "email": "new_user6@example.com",
-              "password": "abcd12345"
+              "password": "abcde12345"
             },
             expectedMessage: 'The password must consist of 6 English letters and 1 number.'
           },

@@ -7,6 +7,7 @@ const savedRandom = singnUpValidBody
 
 test.describe.parallel('User add users body information', () => {
   const baseUrl = 'https://powerpulse-y0gd.onrender.com/api'
+  // const baseUrl = 'http://localhost:3000/api'
   for (const testCase of addIncorrectBody) {
 
     test(`User Login  - wrong body data: ${JSON.stringify(testCase.bodyData)}. Expected message: "${testCase.expectedMessage}"}`, async ({ request }) => {

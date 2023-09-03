@@ -4,6 +4,7 @@ export interface UserData {
     password: string;
   }
   const baseUrl = 'https://powerpulse-y0gd.onrender.com/api'
+  // const baseUrl = 'http://localhost:3000/api'
 
   export const signUpAndLogin = async (request: any, userData: UserData) => {
     await request.post(`${baseUrl}/users/signup`, { data: userData });

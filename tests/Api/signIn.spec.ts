@@ -5,6 +5,7 @@ const savedRandom = singnUpValidBody
 
 test.describe.parallel('User Sign Up API Testing', () => {
   const baseUrl = 'https://powerpulse-y0gd.onrender.com/api'
+  // const baseUrl = 'http://localhost:3000/api'
   
   test('User registration - Assert Invalid Endpoint', async ({ request }) => {
     const response = await request.get(`${baseUrl}/users/non-existing-endpoint`)
@@ -14,7 +15,7 @@ test.describe.parallel('User Sign Up API Testing', () => {
   })
 
   for (const testCase of singnInIncorrectBody) {
-    test(`User Login  - wrong body data: ${JSON.stringify(testCase.userData)}. Expected message: "${testCase.expectedMessage}"}`, async ({ request }) => {
+    test.only(`User Login  - wrong body data: ${JSON.stringify(testCase.userData)}. Expected message: "${testCase.expectedMessage}"}`, async ({ request }) => {
       const resp = await request.post(`${baseUrl}/users/signin`, { data: testCase.userData });
       const expectedStatus = 400;
       const expectedMessage = "Bad Request";
