@@ -229,7 +229,7 @@
     "/users/body": {
       "post": {
         "tags": ["Users"],
-        "summary": "Add user body data info",
+        "summary": "Add or edituser body data info",
         "security": [
           {
             "Bearer": []
@@ -277,7 +277,7 @@
       }
     },
     "/users/current/edit": {
-      "patch": {
+      "post": {
         "tags": ["Users"],
         "summary": "User update",
         "security": [
@@ -702,7 +702,7 @@
         }
       }
     },
-    "diaries/product/add": {
+    "/diaries/product/add": {
       "post": {
         "tags": ["Diary"],
         "summary": "Add eaten product to diary",
@@ -867,7 +867,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/AddDoneExerciseResponse"
+                "$ref": "#/components/schemas/AddDoneExerciseRequest"
               }
             }
           }
@@ -1208,7 +1208,7 @@
           },
           "levelActivity": {
             "type": "integer",
-            "enum": [1, 2, 3, 4],
+            "enum": [1, 2, 3, 4, 5],
             "description": "User's level activity",
             "example": 3
           }
@@ -2967,12 +2967,12 @@
         "properties": {
           "date": {
             "type": "string",
-            "description": "Date when product was eaten",
+            "description": "Date when exercise was done",
             "example": "21-08-2023"
           },
-          "productId": {
+          "exerciseId": {
             "type": "string",
-            "description": "Eaten product id",
+            "description": "Done exercise id",
             "example": "64ef43053b4609d9829ec849"
           }
         }

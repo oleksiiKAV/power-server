@@ -45,6 +45,16 @@ const userSchema = Schema(
       default:
         "https://res.cloudinary.com/dhgbndjlm/image/upload/v1693235748/avatars/kvn40yxqcamrcdhilafx.png",
     },
+
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
+    updatedAt: {
+      type: Date,
+      default: Date.now,
+    },
+
     bodyData: {
       _id: false,
       type: {
