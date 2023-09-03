@@ -15,7 +15,7 @@ test.describe.parallel('User Sign Up API Testing', () => {
   })
 
   for (const testCase of singnInIncorrectBody) {
-    test.only(`User Login  - wrong body data: ${JSON.stringify(testCase.userData)}. Expected message: "${testCase.expectedMessage}"}`, async ({ request }) => {
+    test(`User Login  - wrong body data: ${JSON.stringify(testCase.userData)}. Expected message: "${testCase.expectedMessage}"}`, async ({ request }) => {
       const resp = await request.post(`${baseUrl}/users/signin`, { data: testCase.userData });
       const expectedStatus = 400;
       const expectedMessage = "Bad Request";
