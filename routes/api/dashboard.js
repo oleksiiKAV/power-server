@@ -35,7 +35,7 @@ router.get('/', async (req, res, next) => {
       totalVideoTrainings,
       totalBurnedCalories,
       totalUsers,
-    //   totalTrainingHours,
+    
     totalTrainingTime,
       totalCompletedTrainings,
     };

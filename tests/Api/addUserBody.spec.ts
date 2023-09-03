@@ -7,9 +7,6 @@ const savedRandom = singnUpValidBody
 
 test.describe.parallel('User add users body information', () => {
   const baseUrl = 'https://powerpulse-y0gd.onrender.com/api'
-  // const baseUrl = 'http://localhost:3000/api'
-
-
   for (const testCase of addIncorrectBody) {
 
     test(`User Login  - wrong body data: ${JSON.stringify(testCase.bodyData)}. Expected message: "${testCase.expectedMessage}"}`, async ({ request }) => {
@@ -44,14 +41,9 @@ test.describe.parallel('User add users body information', () => {
         headers: { "Authorization": `Bearer ${token}` },
         data: bodyData.body,
       });
-    // expect(responseBody).toMatchObject({
-    //   name: expect.any(String),
-    //   email: expect.any(String),
-    //   token: expect.any(String),
-    // });
+
     expect(respAddBody.status()).toBe(200);
 
-    // Удаление пользователя
     const deleteResponse = await deleteUser(request, token);
     expect(deleteResponse.status()).toBe(200);
   });
