@@ -9,7 +9,7 @@ const currentUser = async (req, res) => {
 
   if (tokenExpiration - currentTime < 300) {
     const newToken = generateToken(_id);
-    await User.findByIdAndUpdate(_id, { token: newToken });
+    await User.findByIdAndUpdate(_id, { token: newToken, updatedAt:Date.now() });
     res.json({ _id, name, email, token: newToken, avatar, bodyData, createdAt, updatedAt});
   } else {
    
