@@ -42,7 +42,9 @@
   "paths": {
     "/dashboard": {
       "get": {
-        "tags": ["Dashboard"],
+        "tags": [
+          "Dashboard"
+        ],
         "summary": "Get general information from application",
         "responses": {
           "200": {
@@ -68,7 +70,9 @@
     },
     "/users/signup": {
       "post": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "summary": "User sign up",
         "requestBody": {
           "description": "Sign up object",
@@ -113,7 +117,9 @@
     },
     "/users/signin": {
       "post": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "summary": "User sign in",
         "requestBody": {
           "description": "Sign in object",
@@ -156,9 +162,55 @@
         }
       }
     },
+    "/users/google": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        
+        "summary": "Initiate Google OAuth2 authentication",
+        "description": "Initiates the Google OAuth2 authentication process for users.",
+        "responses": {
+          "302": {
+            "description": "Redirect to Google OAuth2 authorization page"
+          }
+        }
+      }
+    },
+    "/users/google/google-redirect": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        
+        "summary": "Handle Google OAuth2 redirection",
+        "description": "Handles the redirection from Google OAuth2 after user authentication.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "code",
+            "description": "The authorization code received from Google OAuth2.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "302": {
+            "description": "Redirect to the frontend with the user's authentication token"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
     "/users/current": {
       "get": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "summary": "Get current user info",
         "security": [
           {
@@ -193,7 +245,9 @@
     },
     "/users/signout": {
       "post": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "summary": "User sign out",
         "security": [
           {
@@ -228,7 +282,9 @@
     },
     "/users/body": {
       "post": {
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "summary": "Add or edituser body data info",
         "security": [
           {
@@ -278,7 +334,9 @@
     },
     "/users/current/edit": {
       "post": {
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "summary": "User update",
         "security": [
           {
@@ -344,9 +402,12 @@
         }
       }
     },
+    
     "/products": {
       "get": {
-        "tags": ["Products"],
+        "tags": [
+          "Products"
+        ],
         "summary": "Get information for products category",
         "security": [
           {
@@ -377,7 +438,9 @@
     },
     "/products/admissible": {
       "get": {
-        "tags": ["Products"],
+        "tags": [
+          "Products"
+        ],
         "summary": "Get information for products list",
         "security": [
           {
@@ -408,7 +471,9 @@
     },
     "/products/admissible/?filter=false": {
       "get": {
-        "tags": ["Products"],
+        "tags": [
+          "Products"
+        ],
         "summary": "Get information about the list of products filtered with the permission of the blood group",
         "security": [
           {
@@ -439,7 +504,9 @@
     },
     "/products/admissible/?category={category}": {
       "get": {
-        "tags": ["Products"],
+        "tags": [
+          "Products"
+        ],
         "summary": "Get information about the list of products filtered by category group",
         "security": [
           {
@@ -479,17 +546,17 @@
         }
       }
     },
-
     "/products/admissible/?page={page}&limit={limit}": {
-
       "get": {
-        "tags": ["Products"],
+        "tags": [
+          "Products"
+        ],
         "summary": "Get information about pagination of products list",
         "security": [
           {
             "Bearer": []
           }
-        ],  
+        ],
         "parameters": [
           {
             "in": "path",
@@ -521,7 +588,7 @@
               }
             }
           },
-            "401": {
+          "401": {
             "description": "Unauthorized",
             "content": {}
           },
@@ -538,38 +605,106 @@
     },
     "/exercises": {
       "get": {
-        "tags": ["Exercises"],
+        "tags": [
+          "Exercises"
+        ],
         "summary": "Get all exercises",
         "security": [
           {
             "Bearer": []
           }
         ],
-          "parameters": [
-        {
-          "name": "bodypart",
-          "in": "query",
-          "schema": {
-            "type": "string"
+        "parameters": [
+          {
+            "name": "bodypart",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "back",
+                "cardio",
+                "chest",
+                "lower arms",
+                "lower legs",
+                "neck",
+                "shoulders",
+                "upper arms",
+                "upper legs",
+                "waist"
+              ],
+              "format": "select"
+            },
+            "description": "Select body part for search exercises by body part"
           },
-          "description": "Filter exercises by body part"
-        },
-        {
-          "name": "muscles",
-          "in": "query",
-          "schema": {
-            "type": "string"
+          {
+            "name": "muscles",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "abductors",
+                "abs",
+                "adductors",
+                "biceps",
+                "calves",
+                "cardiovascular system",
+                "delts",
+                "forearms",
+                "glutes",
+                "hamstrings",
+                "lats",
+                "levator scapulae",
+                "pectorals",
+                "quads",
+                "serratus anterior",
+                "spine",
+                "traps",
+                "triceps",
+                "upper back"
+              ],
+              "format": "select"
+            },
+            "description": "Select equipment for search exercises by equipment"
           },
-          "description": "Filter exercises by target muscles"
-        },
-        {
-          "name": "equipment",
-          "in": "query",
-          "schema": {
-            "type": "string"
-          },
-          "description": "Filter exercises by equipment"
-        }
+          {
+            "name": "equipment",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "assisted",
+                "band",
+                "barbell",
+                "body weight",
+                "bosu ball",
+                "cable",
+                "dumbbell",
+                "elliptical machine",
+                "ez barbell",
+                "hammer",
+                "kettlebell",
+                "leverage machine",
+                "medicine ball",
+                "olympic barbell",
+                "resistance band",
+                "roller",
+                "rope",
+                "skierg machine",
+                "sled machine",
+                "smith machine",
+                "stability ball",
+                "stationary bike",
+                "stepmill machine",
+                "tire",
+                "trap bar",
+                "upper body ergometer",
+                "weighted",
+                "wheel roller"
+              ],
+              "format": "select"
+            },
+            "description": "Select equipment for search exercises by equipment"
+          }
         ],
         "responses": {
           "200": {
@@ -599,7 +734,9 @@
     },
     "/exercises/bodyparts": {
       "get": {
-        "tags": ["Exercises"],
+        "tags": [
+          "Exercises"
+        ],
         "summary": "Get all bodyparts",
         "security": [
           {
@@ -634,7 +771,9 @@
     },
     "/exercises/muscles": {
       "get": {
-        "tags": ["Exercises"],
+        "tags": [
+          "Exercises"
+        ],
         "summary": "Get all muscles",
         "security": [
           {
@@ -669,7 +808,9 @@
     },
     "/exercises/equipments": {
       "get": {
-        "tags": ["Exercises"],
+        "tags": [
+          "Exercises"
+        ],
         "summary": "Get all equipments",
         "security": [
           {
@@ -704,9 +845,15 @@
     },
     "/diaries/product/add": {
       "post": {
-        "tags": ["Diary"],
+        "tags": [
+          "Diary"
+        ],
         "summary": "Add eaten product to diary",
-        "security": [{ "Bearer": [] }],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "requestBody": {
           "description": "Post eaten product object",
           "required": true,
@@ -750,7 +897,9 @@
     },
     "/diaries/product/{id}": {
       "delete": {
-        "tags": ["Diary"],
+        "tags": [
+          "Diary"
+        ],
         "summary": "Remove eaten product from diary",
         "security": [
           {
@@ -768,7 +917,6 @@
             }
           }
         },
-        
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -799,10 +947,11 @@
         }
       }
     },
-
     "/diaries/daily/{date}": {
       "get": {
-        "tags": ["Diary"],
+        "tags": [
+          "Diary"
+        ],
         "summary": "Get diary data for a day",
         "parameters": [
           {
@@ -975,7 +1124,11 @@
       },
       "SignUpRequest": {
         "type": "object",
-        "required": ["name", "email", "password"],
+        "required": [
+          "name",
+          "email",
+          "password"
+        ],
         "properties": {
           "name": {
             "type": "string",
@@ -1027,7 +1180,10 @@
       },
       "SignInRequest": {
         "type": "object",
-        "required": ["email", "password"],
+        "required": [
+          "email",
+          "password"
+        ],
         "properties": {
           "email": {
             "type": "string",
@@ -1196,19 +1352,33 @@
           },
           "blood": {
             "type": "integer",
-            "enum": [1, 2, 3, 4],
+            "enum": [
+              1,
+              2,
+              3,
+              4
+            ],
             "description": "User's blood type",
             "example": 1
           },
           "sex": {
             "type": "string",
-            "enum": ["male", "female"],
+            "enum": [
+              "male",
+              "female"
+            ],
             "description": "User's sex",
             "example": "male"
           },
           "levelActivity": {
             "type": "integer",
-            "enum": [1, 2, 3, 4, 5],
+            "enum": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ],
             "description": "User's level activity",
             "example": 3
           }
@@ -1282,7 +1452,9 @@
       },
       "UserUpdateRequest": {
         "type": "object",
-        "required": ["name"],
+        "required": [
+          "name"
+        ],
         "properties": {
           "name": {
             "type": "string",
@@ -1362,7 +1534,6 @@
           }
         }
       },
-
       "SignOutResponse": {
         "type": "object",
         "properties": {
@@ -2028,72 +2199,72 @@
             "type": "object",
             "description": "Sign out success",
             "example": [
-    {
-        "_id": "5d51694902b2373622ff5ccf",
-        "weight": 100,
-        "calories": 110,
-        "category": "dried fruits",
-        "title": "Dried rosehip",
-        "groupBloodNotAllowed": {
-            "1": false,
-            "2": false,
-            "3": false,
-            "4": false
-        }
-    },
-    {
-        "_id": "5d51694902b2373622ff5c95",
-        "weight": 100,
-        "calories": 213,
-        "category": "nuts",
-        "title": "Canned chestnut",
-        "groupBloodNotAllowed": {
-            "1": false,
-            "2": false,
-            "3": false,
-            "4": true
-        }
-    },
-    {
-        "_id": "5d51694902b2373622ff5cb8",
-        "weight": 100,
-        "calories": 305,
-        "category": "seeds",
-        "title": "Dill seeds",
-        "groupBloodNotAllowed": {
-            "1": false,
-            "2": false,
-            "3": false,
-            "4": false
-        }
-    },
-    {
-        "_id": "5d51694902b2373622ff5e03",
-        "weight": 100,
-        "calories": 91,
-        "category": "vegetables and herbs",
-        "title": "Cocktail salad Bonduelle Hawaiian marinated",
-        "groupBloodNotAllowed": {
-            "1": false,
-            "2": false,
-            "3": false,
-            "4": false
-        }
-    },
-    {
-        "_id": "5d51694902b2373622ff5ef6",
-        "weight": 100,
-        "calories": 100,
-        "category": "soft drinks",
-        "title": "Coffee Maxwell House instant dry",
-        "groupBloodNotAllowed": {
-            "1": false,
-            "2": false,
-            "3": false,
-            "4": false
-        }
-    }
-]
+              {
+                "_id": "5d51694902b2373622ff5ccf",
+                "weight": 100,
+                "calories": 110,
+                "category": "dried fruits",
+                "title": "Dried rosehip",
+                "groupBloodNotAllowed": {
+                  "1": false,
+                  "2": false,
+                  "3": false,
+                  "4": false
+                }
+              },
+              {
+                "_id": "5d51694902b2373622ff5c95",
+                "weight": 100,
+                "calories": 213,
+                "category": "nuts",
+                "title": "Canned chestnut",
+                "groupBloodNotAllowed": {
+                  "1": false,
+                  "2": false,
+                  "3": false,
+                  "4": true
+                }
+              },
+              {
+                "_id": "5d51694902b2373622ff5cb8",
+                "weight": 100,
+                "calories": 305,
+                "category": "seeds",
+                "title": "Dill seeds",
+                "groupBloodNotAllowed": {
+                  "1": false,
+                  "2": false,
+                  "3": false,
+                  "4": false
+                }
+              },
+              {
+                "_id": "5d51694902b2373622ff5e03",
+                "weight": 100,
+                "calories": 91,
+                "category": "vegetables and herbs",
+                "title": "Cocktail salad Bonduelle Hawaiian marinated",
+                "groupBloodNotAllowed": {
+                  "1": false,
+                  "2": false,
+                  "3": false,
+                  "4": false
+                }
+              },
+              {
+                "_id": "5d51694902b2373622ff5ef6",
+                "weight": 100,
+                "calories": 100,
+                "category": "soft drinks",
+                "title": "Coffee Maxwell House instant dry",
+                "groupBloodNotAllowed": {
+                  "1": false,
+                  "2": false,
+                  "3": false,
+                  "4": false
+                }
+              }
+            ]
           }
         }
       },
@@ -2142,14 +2313,14 @@
           }
         },
         "example": {
-        "_id": "64e5d7a0bc1733080d78435f",
-        "bodyPart": "back",
-        "equipment": "barbell",
-        "gifUrl": "https://res.cloudinary.com/ditdqzoio/image/upload/v1687127066/exercises/0037.gif",
-        "name": "barbell decline wide-grip pullover",
-        "target": "lats",
-        "burnedCalories": 307,
-        "time": 3
+          "_id": "64e5d7a0bc1733080d78435f",
+          "bodyPart": "back",
+          "equipment": "barbell",
+          "gifUrl": "https://res.cloudinary.com/ditdqzoio/image/upload/v1687127066/exercises/0037.gif",
+          "name": "barbell decline wide-grip pullover",
+          "target": "lats",
+          "burnedCalories": 307,
+          "time": 3
         }
       },
       "GetBodyPartsResponse": {
@@ -2253,7 +2424,11 @@
       },
       "AddEatenProductRequest": {
         "type": "object",
-        "required": ["date", "product", "amount"],
+        "required": [
+          "date",
+          "product",
+          "amount"
+        ],
         "properties": {
           "date": {
             "type": "string",
@@ -2368,7 +2543,6 @@
             },
             "description": "Array of exercises completed by the user"
           },
-
           "createdAt": {
             "type": "string",
             "format": "date-time",
@@ -2411,7 +2585,10 @@
       },
       "RemoveEatenProductRequest": {
         "type": "object",
-        "required": ["date", "productId"],
+        "required": [
+          "date",
+          "productId"
+        ],
         "properties": {
           "date": {
             "type": "string",
@@ -2698,7 +2875,6 @@
             },
             "description": "List of consumed products with details"
           },
-
           "burnedCalories": {
             "type": "number",
             "description": "Amount of burned calories",
@@ -2865,7 +3041,7 @@
             "example": 5
           }
         }
-	    },
+      },
       "AddDoneExerciseResponse": {
         "type": "object",
         "properties": {
@@ -2963,7 +3139,10 @@
       },
       "RemoveDoneExerciseRequest": {
         "type": "object",
-        "required": ["date", "exerciseId"],
+        "required": [
+          "date",
+          "exerciseId"
+        ],
         "properties": {
           "date": {
             "type": "string",
@@ -3051,14 +3230,13 @@
           "consumedProducts": []
         }
       }
-    },  
-      "securitySchemes": {
-        "Bearer": {
-          "type": "http",
-          "scheme": "bearer",
-          "bearerFormat": "JWT"
-        }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
       }
-    
+    }
   }
 }
