@@ -7,7 +7,7 @@ const getAdmissibleProduct = async (req, res) => {
   const skip = (page - 1) * limit;
 
   const currentUser = await User.findById(_id).select("bodyData.blood");
-  if (!currentUser || !currentUser.bodyData) {
+  if (!currentUser.bodyData) {
     return res.status(404).json({ error: "User or bodyData not found" });
   }
 
