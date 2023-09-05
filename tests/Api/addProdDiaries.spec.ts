@@ -6,13 +6,13 @@ import { addIncorrectBody, bodyData } from "../testData/body"
 import { UserData, signUpAndLogin, deleteUser, addUserBody, BodyData } from "../helpers/actions"
 
 
-test.describe.parallel('User add diaries information', () => {
+test.describe.parallel('Products in diaries', () => {
   const baseUrl = 'https://powerpulse-y0gd.onrender.com/api'
   // const baseUrl = 'http://localhost:3000/api'
   let savedRandom
   let prodCalories
 
-  test.only(`Add eaten product.`, async ({ request }) => {
+  test(`Add eaten product, check it, and delete it.`, async ({ request }) => {
     [savedRandom, prodCalories] = await generateAddProd()
     const userData: UserData = singnUpValidBody.userData;
     const bodyAddData = bodyData.body
@@ -36,16 +36,31 @@ test.describe.parallel('User add diaries information', () => {
           _id: expect.any(String), 
         }),
       ]));
-      console.log()
+      
       const expectedCalories= (responseAddBody.consumedProducts[0].amount*prodCalories)/100
       expect(responseAddBody.consumedCalories).toBeCloseTo(expectedCalories);
 
-      const delDate = savedRandom.date
-      const respDel = await request.delete(`${baseUrl}/diaries/daily/${delDate}`,
+
+      const respDelProd = await request.delete(`${baseUrl}/diaries/product/delete/`,
+      {
+        headers: { "Authorization": `Bearer ${token}` },        
+        data:{
+          date:savedRandom.date,
+          productId: responseAddBody.consumedProducts[0]._id
+        }
+      })
+      
+      expect(respDelProd.status()).toBe(200)
+      const respDelProdBody = JSON.parse(await respDelProd.text());
+      
+      expect(respDelProdBody.consumedProducts.length).toBe(0)
+      
+      const respDel = await request.delete(`${baseUrl}/diaries/daily/${savedRandom.date}`,
       {
         headers: { "Authorization": `Bearer ${token}` },        
       })
-      console.log(respDel.status())
+      expect(respDel.status()).toBe(200)
+      
       
     } finally { 
       await deleteUser(request, token)       
