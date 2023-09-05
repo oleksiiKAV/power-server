@@ -16,6 +16,8 @@ jobs:
         run: yarn install --frozen-lockfile
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
+      - name: Delay Start
+        run: sleep 180
       - name: Run Playwright tests
         run: npx xvfb-maybe playwright test --config=playwright.config.ts --headed --project=Chromium
       - uses: actions/upload-artifact@v2

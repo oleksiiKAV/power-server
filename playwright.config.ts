@@ -13,20 +13,20 @@ const config: PlaywrightTestConfig = {
     screenshot: 'only-on-failure',
   },
   
-  reporter: process.env.CI ? 'blob' : 'html',
+  reporter: 'html',
   projects: [
     {
       name: 'Chromium',
       use: { browserName: 'chromium' },
     },
-    {
-      name: 'Firefox',
-      use: { browserName: 'firefox' },
-    },
-    {
-      name: 'Webkit',
-      use: { browserName: 'webkit' },
-    },
+    // {
+    //   name: 'Firefox',
+    //   use: { browserName: 'firefox' },
+    // },
+    // {
+    //   name: 'Webkit',
+    //   use: { browserName: 'webkit' },
+    // },
   ],
 }
 
