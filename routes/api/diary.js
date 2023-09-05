@@ -24,5 +24,5 @@ router.post(
 
 router.delete("/exercise/:id", ctrl.removeExercise);
 router.get("/daily/:date", ctrl.getDailyData);
-
+router.delete("/daily/:date", ctrl.deleteDailyData);
 module.exports = router;

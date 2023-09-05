@@ -13,7 +13,7 @@ const deleteDailyData = async (req, res, next) => {
     if (!diaryEntry) {
       throw HttpError(404, "Daily data not found");
     }
-    await diaryEntry.remove();
+    await Diary.deleteOne({ _id: diaryEntry._id });
 
     res.json({ message: "Daily data deleted successfully" });
   } catch (error) {

@@ -40,6 +40,13 @@ test.describe.parallel('User add diaries information', () => {
       const expectedCalories= (responseAddBody.consumedProducts[0].amount*prodCalories)/100
       expect(responseAddBody.consumedCalories).toBeCloseTo(expectedCalories);
 
+      const delDate = savedRandom.date
+      const respDel = await request.delete(`${baseUrl}/diaries/daily/${delDate}`,
+      {
+        headers: { "Authorization": `Bearer ${token}` },        
+      })
+      console.log(respDel.status())
+      
     } finally { 
       await deleteUser(request, token)       
     };
