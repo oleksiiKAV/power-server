@@ -9,7 +9,7 @@ const savedRandom = singnUpValidBody
 test.describe.parallel('Get exercises information', () => {
   const baseUrl = 'https://powerpulse-y0gd.onrender.com/api'
   // const baseUrl = 'http://localhost:3000/api'
-  test.only(`Get all exercises`, async ({ request }) => {
+  test(`Get all exercises`, async ({ request }) => {
     const userData: UserData = singnUpValidBody.userData;
     const responseBody = await signUpAndLogin(request, userData);
     const token = responseBody.token;
@@ -27,7 +27,7 @@ test.describe.parallel('Get exercises information', () => {
       expect(deleteResponse.status()).toBe(200);
     }
   });
-  test.only(`Get all Bodypart`, async ({ request }) => {
+  test(`Get all Bodypart`, async ({ request }) => {
     const userData: UserData = singnUpValidBody.userData;
     const responseBody = await signUpAndLogin(request, userData);
     const token = responseBody.token;
@@ -53,7 +53,7 @@ test.describe.parallel('Get exercises information', () => {
       expect(deleteResponse.status()).toBe(200);
     }
   });
-  test.only(`Get all Equipments`, async ({ request }) => {
+  test(`Get all Equipments`, async ({ request }) => {
     const userData: UserData = singnUpValidBody.userData;
     const responseBody = await signUpAndLogin(request, userData);
     const token = responseBody.token;
@@ -79,7 +79,7 @@ test.describe.parallel('Get exercises information', () => {
       expect(deleteResponse.status()).toBe(200);
     }
   });
-  test.only(`Get all Muscles`, async ({ request }) => {
+  test(`Get all Muscles`, async ({ request }) => {
     const userData: UserData = singnUpValidBody.userData;
     const responseBody = await signUpAndLogin(request, userData);
     const token = responseBody.token;
