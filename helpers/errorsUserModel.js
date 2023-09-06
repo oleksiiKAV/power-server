@@ -23,7 +23,6 @@ const errorUserModelUpdateName = {
 };
 const errorUserModelUpdateAvatar = {
   "string.base": "The name must be a string.",
-  "string.empty": "The file pathname must not be empty",
 };
 const errorUserModelHeight = {
   "number.base": "The height must be a number.",
