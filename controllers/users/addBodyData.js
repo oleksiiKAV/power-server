@@ -3,10 +3,10 @@ const { User } = require('../../models/user');
 const addBodyData = async (req, res) => {
   const { _id } = req.user;
   const userData = req.body;
-  const { height, currentWeight, birthday, sex, activityLevel } = userData;
+  const { height, currentWeight, birthday, sex, levelActivity } = userData;
 
   const activityLevels = { 1: 1.2, 2: 1.375, 3: 1.55, 4: 1.725, 5: 1.9 };
-  const activityCoefficient = activityLevels[activityLevel] || 1.2;
+  const activityCoefficient = activityLevels[levelActivity] || 1.2;
 
   const birthdayDate = new Date(birthday);
   const currentDate = new Date();
