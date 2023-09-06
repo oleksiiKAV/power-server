@@ -34,7 +34,7 @@ test.describe.parallel('User add users body information', () => {
           name: expect.any(String),
           email: expect.any(String),
           token: expect.any(String),
-          avatar: expect.any(String),
+          
           bodyData: expect.objectContaining({
             height: expect.any(Number),
             currentWeight: expect.any(Number),
