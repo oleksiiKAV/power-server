@@ -42,8 +42,7 @@ const userSchema = Schema(
     avatar: {
       type: String,
       required: true,
-      default:
-        "https://res.cloudinary.com/dhgbndjlm/image/upload/v1693235748/avatars/kvn40yxqcamrcdhilafx.png",
+      default:"",
     },
 
     createdAt: {
